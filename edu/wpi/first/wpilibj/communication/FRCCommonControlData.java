@@ -21,6 +21,7 @@ public final class FRCCommonControlData extends Structure {
 	}
 
 	public FRCCommonControlData() {
+                properties = new FrcBotSimProperties();
 		// Status bytes
 		properties.put("reset", new FrcBotSimProperty<Boolean>());
 		properties.put("estop", new FrcBotSimProperty<Boolean>());
