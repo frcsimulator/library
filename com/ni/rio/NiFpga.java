@@ -15,10 +15,11 @@ package com.ni.rio;
 
 import com.sun.cldc.jna.*;
 import com.sun.cldc.jna.ptr.IntByReference;
+import net.sourceforge.frcsimulator.internals.CRIO;
 
 /**
- * The NiFpga class provides access to the FPGA on the cRIO. This is a wrapper around the accessors
- * in NiFpga.h
+ * The Nifpga class provides access to the FPGA on the cRIO. This is a wrapper around the accessors
+ * in Nifpga.h
  */
 public class NiFpga implements NiRioConstants
 {
@@ -27,20 +28,20 @@ public class NiFpga implements NiRioConstants
 
 	private static final class configFifoFn {
             public static int call3(int arg0, int arg1, int arg2){
-                System.err.println("fixme:configFifoFn stubbed");
+                if(CRIO.getInstance().isDebugging()) System.err.println("fixme:configFifoFn stubbed");
                 return 0; //@TODO actually get working
             }
         }
 
     /**
-     * Specifies the depth of the host memory part of the DMA FIFO. This method is
+     * Specifies the depth of the host memory part of the DMA FifO. This method is
      * optional. In order to see the actual depth configured, use
-     * NiFpga_ConfigureFifo2.
+     * Nifpga_ConfigureFifo2.
      *
      * @param hClient handle to a currently open session
-     * @param channel FIFO to configure
+     * @param channel FifO to configure
      * @param fifoDepthInElements requested number of elements in the host memory part of the
-     *              DMA FIFO
+     *              DMA FifO
      * @param status result of the call
      */
     public static void configureFifo(int hClient, int channel, int fifoDepthInElements, NiRioStatus status)
@@ -51,16 +52,16 @@ public class NiFpga implements NiRioConstants
 
 	private static final class startFifoFn {
             public static int call2(int arg0, int arg1){
-                System.err.println("fixme:startFifoFn stubbed");
+                if(CRIO.getInstance().isDebugging()) System.err.println("fixme:startFifoFn stubbed");
                 return 0; //@TODO actually get working
             }
         }
     
     /**
-     * Starts a FIFO. This method is optional.
+     * Starts a FifO. This method is optional.
      *
      * @param hClient handle to a currently open session
-     * @param channel FIFO to start
+     * @param channel FifO to start
      * @param status result of the call
      */
     public static void startFifo(int hClient, int channel, NiRioStatus status)
@@ -71,16 +72,16 @@ public class NiFpga implements NiRioConstants
 
 	private static final class stopFifoFn {
             public static int call2(int arg0, int arg1){
-                System.err.println("fixme:stopFifoFn stubbed");
+                if(CRIO.getInstance().isDebugging()) System.err.println("fixme:stopFifoFn stubbed");
                 return 0; // @TODO actually get working
             }
         }
 
     /**
-     * Stops a FIFO. This method is optional.
+     * Stops a FifO. This method is optional.
      *
      * @param hClient handle to a currently open session
-     * @param channel FIFO to start
+     * @param channel FifO to start
      * @param status result of the call
      */
     public static void stopFifo(int hClient, int channel, NiRioStatus status)
@@ -91,21 +92,21 @@ public class NiFpga implements NiRioConstants
 
 	private static final class readFifoU32Fn {
             public static int call6(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5){
-                System.err.println("fixme:readFifoU32Fn stubbed");
+                if(CRIO.getInstance().isDebugging()) System.err.println("fixme:readFifoU32Fn stubbed");
                 return 0;//@TODO actually get working
             }
         }
 
     /**
-     * Reads from a target-to-host FIFO of unsigned 32-bit integers.
+     * Reads from a target-to-host FifO of unsigned 32-bit integers.
      *
      * @param hClient handle to a currently open session
-     * @param channel target-to-host FIFO from which to read
+     * @param channel target-to-host FifO from which to read
      * @param buf outputs the data that was read
      * @param num number of elements to read
-     * @param timeout timeout in milliseconds, or NiFpga_InfiniteTimeout
+     * @param timeout timeout in milliseconds, or Nifpga_InfiniteTimeout
      * @param remaining outputs the number of elements
-     *                          remaining in the host memory part of the DMA FIFO
+     *                          remaining in the host memory part of the DMA FifO
      * @param status result of the call
      */
     public static void readFifoU32(int hClient, int channel, Pointer buf, int num, int timeout, IntByReference remaining, NiRioStatus status)
@@ -139,7 +140,7 @@ public class NiFpga implements NiRioConstants
 
 	private static final class writeU32Fn {
             public static int call3(int arg0, int arg1, int arg2){
-                System.err.println("fixme:writeU32Fn stubbed");
+                if(CRIO.getInstance().isDebugging()) System.err.println("fixme:writeU32Fn stubbed");
                 return 0;//@TODO actually get working
             }
         }
@@ -165,7 +166,7 @@ public class NiFpga implements NiRioConstants
     
     private static final class readU32Fn {
         public static int call3(int arg0, int arg1, int arg2){
-            System.err.println("fixme:readU32Fn stubbed");
+            if(CRIO.getInstance().isDebugging()) System.err.println("fixme:readU32Fn stubbed");
             return 0;//@TODO actually get working
         }
     }
@@ -203,7 +204,7 @@ public class NiFpga implements NiRioConstants
      * context at any given time. Clients must reserve as many contexts as the
      * application requires.
      *
-     * If a context is successfully reserved (the returned status is not an error),
+     * if a context is successfully reserved (the returned status is not an error),
      * it must be unreserved later. Otherwise a memory leak will occur.
      *
      * @param hClient handle to a currently open session
@@ -218,7 +219,7 @@ public class NiFpga implements NiRioConstants
 
     private static final class unreserveIrqContextFn {
         public static int call2(int arg0, int arg1){
-            System.err.println("fixme:unreserveIrqContextFn stubbed");
+            if(CRIO.getInstance().isDebugging()) System.err.println("fixme:unreserveIrqContextFn stubbed");
             return 0;//@TODO actually get working
         }
     }
@@ -239,7 +240,7 @@ public class NiFpga implements NiRioConstants
 
    private static final class waitOnIrqsFn {
        public static int call6(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5){
-           System.err.println("fixme:waitOnIrqsFn stubbed");
+           if(CRIO.getInstance().isDebugging()) System.err.println("fixme:waitOnIrqsFn stubbed");
            return 0;//@TODO actually get working
        }
    }
@@ -247,19 +248,19 @@ public class NiFpga implements NiRioConstants
     /**
      * This is a blocking function that stops the calling thread until the FPGA
      * asserts any IRQ in the irqs parameter, or until the function call times out.
-     * Before calling this function, you must use NiFpga_ReserveIrqContext to
+     * Before calling this function, you must use Nifpga_ReserveIrqContext to
      * reserve an IRQ context. No other threads can use the same context when this
      * function is called.
      *
      * You can use the irqsAsserted parameter to determine which IRQs were asserted
      * for each function call.
      * 
-     * @todo If this really blocks, then waitOnIrqsFn should probably be a BlockingFunction
+     * @todo if this really blocks, then waitOnIrqsFn should probably be a BlockingFunction
      *
      * @param hClient handle to a currently open session
      * @param context IRQ context with which to wait
-     * @param irqs bitwise OR of NiFpga_Irqs
-     * @param timeout timeout in milliseconds, or NiFpga_InfiniteTimeout
+     * @param irqs bitwise OR of Nifpga_Irqs
+     * @param timeout timeout in milliseconds, or Nifpga_InfiniteTimeout
      * @param irqsAsserted if non-NULL, outputs bitwise OR of IRQs that were
      *                     asserted
      * @param timedOut if non-NULL, outputs whether the timeout expired

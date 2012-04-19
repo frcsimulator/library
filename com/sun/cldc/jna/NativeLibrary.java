@@ -4,6 +4,8 @@
  */
 package com.sun.cldc.jna;
 
+import net.sourceforge.frcsimulator.internals.CRIO;
+
 /**
  * Replacement for native library wrappers which throws exceptions indicating
  * they need to be replaced.
@@ -11,12 +13,15 @@ package com.sun.cldc.jna;
  */
 public class NativeLibrary {
 	public static NativeLibrary getDefaultInstance() {
-		throw new UnsupportedOperationException("Calls to NativeLibrary need to be replaced in the simulator!");
+		if(CRIO.getInstance().isDebugging()) System.err.println("fixme:NativeLibrary should not be used");
+                return new NativeLibrary();//@TODO should not be used
 	}
 	public Function getFunction(String funcName) {
-		throw new UnsupportedOperationException("Calls to NativeLibrary need to be replaced in the simulator!");
+            if(CRIO.getInstance().isDebugging()) System.err.println("fixme:NativeLibrary should not be used");
+		return new Function();//@TODO should not be used
 	}
 	public BlockingFunction getBlockingFunction(String funcName) {
-		throw new UnsupportedOperationException("Calls to NativeLibrary need to be replaced in the simulator!");
+            if(CRIO.getInstance().isDebugging()) System.err.println("fixme:NativeLibrary should not be used");
+		return new BlockingFunction();//@TODO should not be used
 	}
 }

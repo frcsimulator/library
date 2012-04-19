@@ -34,12 +34,12 @@ public class Simulator extends Thread {
 	/**
 	 *
 	 * @param midletClass The name of the MIDlet class which should be run inside the simulator; eg. "edu.wpi.first.wpilibj.SimpleRobot
-	 * @throws ClassNotFoundException If the class name given does not actually exist
+	 * @throws ClassNotFoundException if the class name given does not actually exist
 	 * @throws ClassCastException if the class exists, but doesn't extend MIDlet.
 	 */
 	public Simulator(String midletClass) throws ClassNotFoundException,ClassCastException {
 		/* Make sure that the class given actually exists.
-		 * If it doesn't, Class.forName() will throw a ClassNotFoundException
+		 * if it doesn't, Class.forName() will throw a ClassNotFoundException
 		 * which will pop the stack out of this constructor.
 		 * This is the long version of this call so we can pass false to prevent
 		 * initializing the class.

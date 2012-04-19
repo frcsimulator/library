@@ -8,6 +8,7 @@
 package edu.wpi.first.wpilibj.communication;
 
 import com.sun.cldc.jna.Structure;
+import net.sourceforge.frcsimulator.internals.CRIO;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperties;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperty;
 
@@ -159,7 +160,8 @@ public final class FRCCommonControlData extends Structure {
      * Read new data in the structure
      */
     public void read() {
-        packetIndex = (Integer)properties.get("packetIndex").get();
+        if(CRIO.getInstance().isDebugging()) System.err.println("fixme:FRCCommonControlData.read() stubbed");
+        /*packetIndex = (Integer)properties.get("packetIndex").get();
         control = (short)(
 				((Boolean)properties.get("reset").get()?RESET_BIT:0x0) |
 				((Boolean)properties.get("estop").get()?ESTOP_BIT:0x0) |
@@ -189,7 +191,7 @@ public final class FRCCommonControlData extends Structure {
         analog2 = (Short)properties.get("analog2").get();
         analog3 = (Short)properties.get("analog3").get();
         analog4 = (Short)properties.get("analog4").get();
-
+        */
         // Other fields are used by the lower-level comm system and not needed by robot code
 	}
 

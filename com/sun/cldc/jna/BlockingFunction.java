@@ -4,12 +4,14 @@
  */
 package com.sun.cldc.jna;
 
+import net.sourceforge.frcsimulator.internals.CRIO;
+
 /**
  *
  * @author wolf
  */
 public class BlockingFunction extends Function {
 	public void setTaskExecutor(TaskExecutor te) {
-		throw new UnsupportedOperationException("Calls to BlockingFunction need to be replaced in the simulator!");
-	}
+            if(CRIO.getInstance().isDebugging()) System.err.println("fixme:TaskExecutor needs to be replaced");
+        }
 }

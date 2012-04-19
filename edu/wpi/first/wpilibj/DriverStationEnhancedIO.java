@@ -11,6 +11,7 @@ import com.sun.cldc.jna.Structure;
 import edu.wpi.first.wpilibj.communication.FRCControl;
 import edu.wpi.first.wpilibj.parsing.IInputOutput;
 import edu.wpi.first.wpilibj.util.BoundaryException;
+import net.sourceforge.frcsimulator.internals.CRIO;
 
 /**
  *
@@ -363,7 +364,7 @@ public class DriverStationEnhancedIO implements IInputOutput{
             if (retVal == 0) {
                 if (m_outputValid) {
                     if (m_configChanged) {
-                        // If our config change made the round trip then clear the flag.
+                        // if our config change made the round trip then clear the flag.
                         if (isConfigEqual(tempOutputData, m_outputData)) {
                             m_configChanged = false;
                         }
@@ -390,7 +391,7 @@ public class DriverStationEnhancedIO implements IInputOutput{
         synchronized (m_inputDataSemaphore) {
 
             retVal = FRCControl.getDynamicControlData(kInputBlockID, tempInputData, tempInputData.size(), 5);
-            if (retVal == 0 && tempInputData.data.api_version == kSupportedAPIVersion) {
+            if (retVal == 0/* && tempInputData.data.api_version == kSupportedAPIVersion*/) {//@TODO get semaphores working
                 tempInputData.copy(m_inputData);
                 m_inputValid = true;
             } else {
@@ -404,13 +405,14 @@ public class DriverStationEnhancedIO implements IInputOutput{
      * Merge the config portion of the DS output block into the local cache.
      */
     void mergeConfigIntoOutput(status_block_t dsOutputBlock, status_block_t localCache) {
-        localCache.data.digital = (short) ((localCache.data.digital & dsOutputBlock.data.digital_oe) |
+        if(CRIO.getInstance().isDebugging()) System.err.println("fixme:DriverStationEnhancedIO.mergeConfigIntoOutput() stubbed");
+        /*localCache.data.digital = (short) ((localCache.data.digital & dsOutputBlock.data.digital_oe) |
                 (dsOutputBlock.data.digital & ~dsOutputBlock.data.digital_oe));
-        localCache.data.digital_oe = dsOutputBlock.data.digital_oe;
+        localCache.data.digital_oe = dsOutputBlock.data.digital_oe;@TODO get this working, doesn't becauso of other changes
         localCache.data.digital_pe = dsOutputBlock.data.digital_pe;
         localCache.data.pwm_period[0] = dsOutputBlock.data.pwm_period[0];
         localCache.data.pwm_period[1] = dsOutputBlock.data.pwm_period[1];
-        localCache.data.setEnables(dsOutputBlock.data.getEnables());
+        localCache.data.setEnables(dsOutputBlock.data.getEnables());*/
     }
 
     /**
@@ -666,7 +668,7 @@ public class DriverStationEnhancedIO implements IInputOutput{
      * Get the current configuration for a DIO line.
      *
      * This has the side effect of forcing the Driver Station to switch to Enhanced mode if it's not when called.
-     * If Enhanced mode is not enabled when this is called, it will return kUnknown.
+     * if Enhanced mode is not enabled when this is called, it will return kUnknown.
      *
      * @param channel The DIO channel config to get. [1,16]
      * @return The configured mode for the DIO line.
@@ -705,13 +707,13 @@ public class DriverStationEnhancedIO implements IInputOutput{
     /**
      * Override the DS's configuration of a DIO line.
      *
-     * If configured to kInputFloating, the selected DIO line will be tri-stated with no internal pull resistor.
+     * if configured to kInputFloating, the selected DIO line will be tri-stated with no internal pull resistor.
      *
-     * If configured to kInputPullUp, the selected DIO line will be tri-stated with a 5k-Ohm internal pull-up resistor enabled.
+     * if configured to kInputPullUp, the selected DIO line will be tri-stated with a 5k-Ohm internal pull-up resistor enabled.
      *
-     * If configured to kInputPullDown, the selected DIO line will be tri-stated with a 5k-Ohm internal pull-down resistor enabled.
+     * if configured to kInputPullDown, the selected DIO line will be tri-stated with a 5k-Ohm internal pull-down resistor enabled.
      *
-     * If configured to kOutput, the selected DIO line will actively drive to 0V or Vddio (specified by J1 and J4).
+     * if configured to kOutput, the selected DIO line will actively drive to 0V or Vddio (specified by J1 and J4).
      * DIO1 through DIO12, DIO15, and DIO16 can source 4mA and can sink 8mA.
      * DIO12 and DIO13 can source 4mA and can sink 25mA.
      *
@@ -719,7 +721,7 @@ public class DriverStationEnhancedIO implements IInputOutput{
      *
      * In addition to the common configurations, DIO15 and DIO16 can be configured to kAnalogComparator to enable
      * analog comparators on those 2 DIO lines.  When enabled, the lines are tri-stated and will accept analog voltages
-     * between 0V and 3.3V.  If the input voltage is greater than the voltage output by AO1, the DIO will read as true,
+     * between 0V and 3.3V.  if the input voltage is greater than the voltage output by AO1, the DIO will read as true,
      * if less then false.
      *
      * @param channel The DIO line to configure. [1,16]
@@ -783,7 +785,7 @@ public class DriverStationEnhancedIO implements IInputOutput{
      * Get the period of a PWM generator.
      *
      * This has the side effect of forcing the Driver Station to switch to Enhanced mode if it's not when called.
-     * If Enhanced mode is not enabled when this is called, it will return 0.
+     * if Enhanced mode is not enabled when this is called, it will return 0.
      *
      * @param channels Select the generator by specifying the two channels to which it is connected.
      * @return The period of the PWM generator in seconds.
@@ -909,7 +911,7 @@ public class DriverStationEnhancedIO implements IInputOutput{
      * Reset the position of an encoder to 0.
      *
      * This simply stores an offset locally.  It does not reset the hardware counter on the IO board.
-     * If you use this method with Index enabled, you may get unexpected results.
+     * if you use this method with Index enabled, you may get unexpected results.
      *
      * @param encoderNumber The quadrature encoder to reset. [1,2]
      */
@@ -927,7 +929,7 @@ public class DriverStationEnhancedIO implements IInputOutput{
      * Get the current configuration of a quadrature encoder index channel.
      *
      * This has the side effect of forcing the Driver Station to switch to Enhanced mode if it's not when called.
-     * If Enhanced mode is not enabled when this is called, it will return false.
+     * if Enhanced mode is not enabled when this is called, it will return false.
      *
      * @param encoderNumber The quadrature encoder. [1,2]
      * @return Is the index channel of the encoder enabled.
@@ -954,7 +956,7 @@ public class DriverStationEnhancedIO implements IInputOutput{
      * When enabled, the decoder's counter will be reset to 0 when A, B, and Index are all low.
      *
      * @param encoderNumber The quadrature encoder. [1,2]
-     * @param enable If true, reset the encoder in an index condition.
+     * @param enable if true, reset the encoder in an index condition.
      */
     public void setEncoderIndexEnable(int encoderNumber, boolean enable) {
         BoundaryException.assertWithinBounds(encoderNumber, 1, 2);
@@ -1029,7 +1031,7 @@ public class DriverStationEnhancedIO implements IInputOutput{
      * Get the firmware version running on the IO board.
      *
      * This also has the side effect of forcing the driver station to switch to Enhanced mode if it is not.
-     * If you plan to switch between Driver Stations with unknown IO configurations, you can call this
+     * if you plan to switch between Driver Stations with unknown IO configurations, you can call this
      * until it returns a non-0 version to ensure that this API is accessible before proceeding.
      *
      * @return The version of the firmware running on the IO board.  0 if the board is not attached or not in Enhanced mode.

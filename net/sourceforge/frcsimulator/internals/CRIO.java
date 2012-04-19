@@ -8,6 +8,7 @@ package net.sourceforge.frcsimulator.internals;
 public class CRIO implements FrcBotSimComponent{
     private static CRIO m_kCRIO = new CRIO();
     private int m_year = 2010;
+    private boolean debug;
     private short m_control = 0x0;
     //10000000
     public static final short RESET_CONTROL_BIT = 0x80;
@@ -30,8 +31,8 @@ public class CRIO implements FrcBotSimComponent{
      * Adds a simulated module at the given location to the CRIO.
      * @param module The module to be added.
      * @param id Where to insert the module.
-     * @throws InvalidModuleException If the module equals null.
-     * @throws ModuleSlotOutOfBoundsException If the id would not fit on a hardware CRIO.
+     * @throws InvalidModuleException if the module equals null.
+     * @throws ModuleSlotOutOfBoundsException if the id would not fit on a hardware CRIO.
      */
     public void addModule(CRIOModule module, int id) throws ModuleException{ //@TODO throw InvalidModuleException if not the right type for given id
         if(module == null){throw new InvalidModuleException();}
@@ -41,7 +42,7 @@ public class CRIO implements FrcBotSimComponent{
     /**
      * Removes a module from the given location on the CRIO.
      * @param id Where to remove the module from.
-     * @throws ModuleSlotOutOfBoundsException If the id would not be on a hardware CRIO.
+     * @throws ModuleSlotOutOfBoundsException if the id would not be on a hardware CRIO.
      */
     public void removeModule(int id) throws ModuleException{
         if(id < 1 || id > 8){throw new ModuleSlotOutOfBoundsException();}
@@ -51,8 +52,8 @@ public class CRIO implements FrcBotSimComponent{
      * Gets a module from the given location on the CRIO.
      * @param id Where the module is located.
      * @return An object representing the module on the CRIO.
-     * @throws ModuleSlotOutOfBoundsException If the id would not be on a hardware CRIO.
-     * @throws ModuleNotFoundException If the module does not exist at that location.
+     * @throws ModuleSlotOutOfBoundsException if the id would not be on a hardware CRIO.
+     * @throws ModuleNotFoundException if the module does not exist at that location.
      */
     public CRIOModule getModule(int id) throws ModuleException{
         if(id < 1 || id > 8){throw new ModuleSlotOutOfBoundsException();}
@@ -88,6 +89,20 @@ public class CRIO implements FrcBotSimComponent{
      */
     public static CRIO getInstance(){
         return m_kCRIO;
+    }
+    /**
+     * Returns whether or not the CRIO is in debug mode.
+     * @return The current debugging mode.
+     */
+    public boolean isDebugging(){
+        return debug;
+    }
+    /**
+     * Sets whether or not the CRIO is in debug mode.
+     * @param debug The debugging mode to be set to.
+     */
+    public void setDebugging(boolean debug){
+        this.debug = debug;
     }
     /**
      * Gets the properties of this component that can later be parsed by the simulator or an external program.

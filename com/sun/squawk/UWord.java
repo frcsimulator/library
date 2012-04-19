@@ -4,12 +4,15 @@
  */
 package com.sun.squawk;
 
+import net.sourceforge.frcsimulator.internals.CRIO;
+
 /**
  *
  * @author wolf
  */
 public class UWord {
 	public int toPrimitive() {
-		throw new UnsupportedOperationException("Calls to UWord need to be replaced in the simulator!");
+		if(CRIO.getInstance().isDebugging()) System.err.println("fixme:UWord should not be used");
+                return 0;
 	}
 }
