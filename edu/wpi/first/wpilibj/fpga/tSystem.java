@@ -21,9 +21,6 @@ public abstract class tSystem implements ExpectedFPGASignature {
 		System.out.print("FPGA Software GUID: ");
 		printGUID(kExpectedFPGASignature);
 		System.out.println("");
-		for (StackTraceElement ste:Thread.currentThread().getStackTrace()) {
-			System.out.println(ste.toString());
-		}
 	}
 
 	private static void printGUID(int guid[]) {

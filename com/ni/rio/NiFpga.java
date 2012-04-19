@@ -27,6 +27,7 @@ public class NiFpga implements NiRioConstants
 
 	private static final class configFifoFn {
             public static int call3(int arg0, int arg1, int arg2){
+                System.err.println("fixme:configFifoFn stubbed");
                 return 0; //@TODO actually get working
             }
         }
@@ -50,6 +51,7 @@ public class NiFpga implements NiRioConstants
 
 	private static final class startFifoFn {
             public static int call2(int arg0, int arg1){
+                System.err.println("fixme:startFifoFn stubbed");
                 return 0; //@TODO actually get working
             }
         }
@@ -69,6 +71,7 @@ public class NiFpga implements NiRioConstants
 
 	private static final class stopFifoFn {
             public static int call2(int arg0, int arg1){
+                System.err.println("fixme:stopFifoFn stubbed");
                 return 0; // @TODO actually get working
             }
         }
@@ -86,7 +89,12 @@ public class NiFpga implements NiRioConstants
                   stopFifoFn.call2(hClient, channel));
 	}
 
-	private static final Function readFifoU32Fn = NativeLibrary.getDefaultInstance().getFunction("NiFpga_ReadFifoU32");
+	private static final class readFifoU32Fn {
+            public static int call6(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5){
+                System.err.println("fixme:readFifoU32Fn stubbed");
+                return 0;//@TODO actually get working
+            }
+        }
 
     /**
      * Reads from a target-to-host FIFO of unsigned 32-bit integers.
@@ -129,7 +137,12 @@ public class NiFpga implements NiRioConstants
         statusA.setStatus(statusB);
     }
 
-	private static final Function writeU32Fn = NativeLibrary.getDefaultInstance().getFunction("NiFpga_WriteU32");
+	private static final class writeU32Fn {
+            public static int call3(int arg0, int arg1, int arg2){
+                System.err.println("fixme:writeU32Fn stubbed");
+                return 0;//@TODO actually get working
+            }
+        }
 
     /**
      * Writes an unsigned 32-bit integer value to a given control or indicator.
@@ -150,7 +163,12 @@ public class NiFpga implements NiRioConstants
 
     private static IntByReference readValue = new IntByReference(0);
     
-    private static final Function readU32Fn = NativeLibrary.getDefaultInstance().getFunction("NiFpga_ReadU32");
+    private static final class readU32Fn {
+        public static int call3(int arg0, int arg1, int arg2){
+            System.err.println("fixme:readU32Fn stubbed");
+            return 0;//@TODO actually get working
+        }
+    }
 
     /**
      * Reads an unsigned 32-bit integer value from a given offset
@@ -164,7 +182,7 @@ public class NiFpga implements NiRioConstants
 //      System.out.print("read offset = 0x");
 //      System.out.println(Long.toString(offset, 16));
         mergeStatus(status,
-                readU32Fn.call3(hClient, offset, readValue.getPointer()));
+                readU32Fn.call3(hClient, offset, 0/*readValue.getPointer()*/));
 //      System.out.print("value = 0x");
 //      System.out.println(Long.toString(((long)value) & 0xFFFFFFFFL, 16));
         return readValue.getValue();
@@ -173,7 +191,12 @@ public class NiFpga implements NiRioConstants
    // ---------------------------
    // IRQs:
 
-	private static final Function reserveIrqContextFn = NativeLibrary.getDefaultInstance().getFunction("NiFpga_ReserveIrqContext");
+	private static final class reserveIrqContextFn {
+            public static int call2(int arg0, int arg1){
+                System.out.println("fixme:reserveIrqContextFn stubbed");
+                return 0; //@TODO actually get working
+            }
+        }
 
     /**
      * IRQ contexts are single-threaded; only one thread can wait with a particular
@@ -193,7 +216,12 @@ public class NiFpga implements NiRioConstants
                   reserveIrqContextFn.call2(hClient, context.getPointer().address().toUWord().toPrimitive()));
 	}
 
-    private static final Function unreserveIrqContextFn = NativeLibrary.getDefaultInstance().getFunction("NiFpga_UnreserveIrqContext");
+    private static final class unreserveIrqContextFn {
+        public static int call2(int arg0, int arg1){
+            System.err.println("fixme:unreserveIrqContextFn stubbed");
+            return 0;//@TODO actually get working
+        }
+    }
     /**
      * Unreserves an IRQ context obtained from reserveIrqContext.
      *
@@ -209,7 +237,12 @@ public class NiFpga implements NiRioConstants
 
    private static IntByReference irqsAsserted = new IntByReference(0);
 
-   private static final Function waitOnIrqsFn = NativeLibrary.getDefaultInstance().getFunction("NiFpga_WaitOnIrqs");
+   private static final class waitOnIrqsFn {
+       public static int call6(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5){
+           System.err.println("fixme:waitOnIrqsFn stubbed");
+           return 0;//@TODO actually get working
+       }
+   }
 
     /**
      * This is a blocking function that stops the calling thread until the FPGA
@@ -235,7 +268,7 @@ public class NiFpga implements NiRioConstants
     public static synchronized int waitOnIrqs(int hClient, IntByReference context, int irqs, int timeout, NiRioStatus status) {
         irqsAsserted.setValue(0);
         mergeStatus(status,
-                waitOnIrqsFn.call6(hClient, context.getValue(), irqs, timeout, irqsAsserted.getPointer().address().toUWord().toPrimitive(), 0));
+                waitOnIrqsFn.call6(hClient, context.getValue(), irqs, timeout, 0/*irqsAsserted.getPointer().address().toUWord().toPrimitive()*/, 0));
         return irqsAsserted.getValue();
     }
 

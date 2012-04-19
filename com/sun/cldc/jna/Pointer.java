@@ -16,25 +16,29 @@ import com.sun.squawk.realtime.SizeOutOfBoundsException;
  */
 public class Pointer extends RawMemoryFloatAccess {
 	public Pointer(int size) {
+            System.err.println("fixme:Pointer should not be used");
             //@TODO eventually do away with pointer entirely, as of now it is quite engrained into the wpi libraries
             //throw new UnsupportedOperationException("Not implemented yet; should be replaced.");
-            //stubbed because it is needed;
         }
 	public Pointer(long base, int size) {
-		throw new UnsupportedOperationException("Not implemented yet; should be replaced.");
+            System.err.println("fixme:Pointer should not be used");
+		//throw new UnsupportedOperationException("Not implemented yet; should be replaced.");
 	}
 	public static Pointer NULL() {
 		//throw new UnsupportedOperationException("Not implemented yet; should be replaced.");
+            System.err.println("fixme:Pointer should not be used");
             return new Pointer(0); //@TODO, should not be used, but currently required
 	}
 	public final Address address() {
-		throw new UnsupportedOperationException("Not implemented yet; should be replaced.");
+            System.err.println("fixme:Pointer should not be used");
+            return new Address(); //@TODO should not be used
 	}
 	public final int getSize() {
-		throw new UnsupportedOperationException("Not implemented yet; should be replaced.");
+            System.err.println("fixme:Pointer should not be used");
+            return 0; //@TODO should not be used
 	}
 	public final void free() throws IllegalStateException {
-		throw new UnsupportedOperationException("Not implemented yet; should be replaced.");
+            
 	}
 	public static void copyBytes(Pointer src, int srcOffset, Pointer dst, int dstOffset, int len)
 			throws OffsetOutOfBoundsException, SizeOutOfBoundsException {
