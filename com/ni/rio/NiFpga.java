@@ -141,7 +141,7 @@ public class NiFpga implements NiRioConstants
 
 	private static final class writeU32Fn {
             public static int call3(int arg0, int arg1, int arg2){
-                if(CRIO.getInstance().isDebugging()) System.err.println("fixme:writeU32Fn stubbed");
+                Simulator.fixme(NiFpga.class, Thread.currentThread(), "writeU32Fn stubbed");
                 return 0;//@TODO actually get working
             }
         }
@@ -167,7 +167,7 @@ public class NiFpga implements NiRioConstants
     
     private static final class readU32Fn {
         public static int call3(int arg0, int arg1, int arg2){
-            if(CRIO.getInstance().isDebugging()) System.err.println("fixme:readU32Fn stubbed");
+            Simulator.fixme(NiFpga.class, Thread.currentThread(), "readU32Fn stubbed");
             return 0;//@TODO actually get working
         }
     }
@@ -195,7 +195,7 @@ public class NiFpga implements NiRioConstants
 
 	private static final class reserveIrqContextFn {
             public static int call2(int arg0, int arg1){
-                System.out.println("fixme:reserveIrqContextFn stubbed");
+                Simulator.fixme(NiFpga.class, Thread.currentThread(), "reserveIrqContextFn stubbed");
                 return 0; //@TODO actually get working
             }
         }
@@ -220,7 +220,7 @@ public class NiFpga implements NiRioConstants
 
     private static final class unreserveIrqContextFn {
         public static int call2(int arg0, int arg1){
-            if(CRIO.getInstance().isDebugging()) System.err.println("fixme:unreserveIrqContextFn stubbed");
+            Simulator.fixme(NiFpga.class, Thread.currentThread(), "unreserveIrqContextFn stubbed");
             return 0;//@TODO actually get working
         }
     }
@@ -241,7 +241,7 @@ public class NiFpga implements NiRioConstants
 
    private static final class waitOnIrqsFn {
        public static int call6(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5){
-           if(CRIO.getInstance().isDebugging()) System.err.println("fixme:waitOnIrqsFn stubbed");
+           Simulator.fixme(NiFpga.class, Thread.currentThread(), "waitOnIrqsFn stubbed");
            return 0;//@TODO actually get working
        }
    }

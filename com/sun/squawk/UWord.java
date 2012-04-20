@@ -5,6 +5,7 @@
 package com.sun.squawk;
 
 import net.sourceforge.frcsimulator.internals.CRIO;
+import net.sourceforge.frcsimulator.mistware.Simulator;
 
 /**
  *
@@ -12,7 +13,7 @@ import net.sourceforge.frcsimulator.internals.CRIO;
  */
 public class UWord {
 	public int toPrimitive() {
-		if(CRIO.getInstance().isDebugging()) System.err.println("fixme:UWord should not be used");
+            Simulator.fixme(UWord.class, Thread.currentThread(), "should not be used");
                 return 0;
 	}
 }

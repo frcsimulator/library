@@ -5,6 +5,7 @@
 package com.sun.cldc.jna;
 
 import net.sourceforge.frcsimulator.internals.CRIO;
+import net.sourceforge.frcsimulator.mistware.Simulator;
 
 /**
  *
@@ -12,6 +13,6 @@ import net.sourceforge.frcsimulator.internals.CRIO;
  */
 public class TaskExecutor {
 	public TaskExecutor(String name) {
-            if(CRIO.getInstance().isDebugging()) System.err.println("fixme:TaskExecutor needs to be replaced");
+            Simulator.fixme(TaskExecutor.class, Thread.currentThread(), "stubbed");
         }
 }
