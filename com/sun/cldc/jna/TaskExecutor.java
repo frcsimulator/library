@@ -4,6 +4,7 @@
  */
 package com.sun.cldc.jna;
 
+import java.util.concurrent.*;
 import net.sourceforge.frcsimulator.internals.CRIO;
 import net.sourceforge.frcsimulator.mistware.Simulator;
 
@@ -11,8 +12,20 @@ import net.sourceforge.frcsimulator.mistware.Simulator;
  *
  * @author wolf
  */
-public class TaskExecutor {
+public class TaskExecutor extends ThreadPoolExecutor{
+    static ArrayBlockingQueue m_arrayBlockingQueue = new ArrayBlockingQueue(25);
 	public TaskExecutor(String name) {
-            Simulator.fixme(TaskExecutor.class, Thread.currentThread(), "stubbed");
+            super(20,Integer.MAX_VALUE,Long.MAX_VALUE,TimeUnit.MILLISECONDS,m_arrayBlockingQueue);
+        }
+        public void cancelTaskExecutor(){
+            shutdown();
+        }
+        public int deleteTaskExecutor(){
+            finalize();
+            return 0;
+        }
+        public void stopTaskExecutor(){
+            shutdown();
+            finalize();
         }
 }
