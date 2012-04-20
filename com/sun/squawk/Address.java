@@ -5,6 +5,7 @@
 package com.sun.squawk;
 
 import net.sourceforge.frcsimulator.internals.CRIO;
+import net.sourceforge.frcsimulator.mistware.Simulator;
 
 /**
  * The Address class is used to abstract machine addresses. This should probably
@@ -13,10 +14,10 @@ import net.sourceforge.frcsimulator.internals.CRIO;
  */
 public class Address {
     public Address(){
-		if(CRIO.getInstance().isDebugging()) System.err.println("fixme:Address should not be used");
+        Simulator.fixme(Address.class, Thread.currentThread(), "Address should not be used");
     }
 	public UWord toUWord() {
-		if(CRIO.getInstance().isDebugging()) System.err.println("fixme:Address should not be used");
+        Simulator.fixme(Address.class, Thread.currentThread(), "Address should not be used");
                 return new UWord();
 	}
 }

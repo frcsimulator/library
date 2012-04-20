@@ -5,9 +5,11 @@
 package net.sourceforge.frcsimulator.mistware;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.microedition.midlet.MIDlet;
+import net.sourceforge.frcsimulator.internals.CRIO;
 import net.sourceforge.frcsimulator.internals.UnimplementedOperationException;
 
 /**
@@ -209,4 +211,11 @@ public class Simulator extends Thread {
 			return this==STOPPED||this==ERROR;
 		}
 	}
+        public static void fixme(Class source, Thread thread, String reason){
+            if(CRIO.getInstance().isDebugging()){
+            StackTraceElement[] stackTraces;
+            stackTraces = thread.getStackTrace();
+            System.err.println("fixme:"+thread.getName()+":"+stackTraces[stackTraces.length-1]+":"+stackTraces[stackTraces.length-2]+":"+source.getName()+":"+reason);
+            }
+            }
 }

@@ -5,6 +5,7 @@
 package com.sun.cldc.jna;
 
 import net.sourceforge.frcsimulator.internals.CRIO;
+import net.sourceforge.frcsimulator.mistware.Simulator;
 
 /**
  * Replacement for native library wrappers which throws exceptions indicating
@@ -13,15 +14,15 @@ import net.sourceforge.frcsimulator.internals.CRIO;
  */
 public class NativeLibrary {
 	public static NativeLibrary getDefaultInstance() {
-		if(CRIO.getInstance().isDebugging()) System.err.println("fixme:NativeLibrary should not be used");
+		Simulator.fixme(NativeLibrary.class, Thread.currentThread(), "NativeLibrary should not be used");
                 return new NativeLibrary();//@TODO should not be used
 	}
 	public Function getFunction(String funcName) {
-            if(CRIO.getInstance().isDebugging()) System.err.println("fixme:NativeLibrary should not be used");
+		Simulator.fixme(NativeLibrary.class, Thread.currentThread(), "NativeLibrary should not be used");
 		return new Function();//@TODO should not be used
 	}
 	public BlockingFunction getBlockingFunction(String funcName) {
-            if(CRIO.getInstance().isDebugging()) System.err.println("fixme:NativeLibrary should not be used");
+		Simulator.fixme(NativeLibrary.class, Thread.currentThread(), "NativeLibrary should not be used");
 		return new BlockingFunction();//@TODO should not be used
 	}
 }

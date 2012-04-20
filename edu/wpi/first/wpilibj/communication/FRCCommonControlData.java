@@ -8,6 +8,8 @@
 package edu.wpi.first.wpilibj.communication;
 
 import com.sun.cldc.jna.Structure;
+import edu.wpi.first.wpilibj.Accelerometer;
+import edu.wpi.first.wpilibj.Gyro;
 import net.sourceforge.frcsimulator.internals.CRIO;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperties;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperty;
@@ -24,35 +26,35 @@ public final class FRCCommonControlData extends Structure {
 	public FRCCommonControlData() {
                 properties = new FrcBotSimProperties();
 		// Status bytes
-		properties.put("reset", new FrcBotSimProperty<Boolean>());
-		properties.put("estop", new FrcBotSimProperty<Boolean>());
-		properties.put("enabled", new FrcBotSimProperty<Boolean>());
-		properties.put("autonomous", new FrcBotSimProperty<Boolean>());
-		properties.put("fms-attached", new FrcBotSimProperty<Boolean>());
-		properties.put("resynch",new FrcBotSimProperty<Boolean>());
+		properties.put("reset", new FrcBotSimProperty<Boolean>(false));
+		properties.put("estop", new FrcBotSimProperty<Boolean>(false));
+		properties.put("enabled", new FrcBotSimProperty<Boolean>(false));
+		properties.put("autonomous", new FrcBotSimProperty<Boolean>(false));
+		properties.put("fms-attached", new FrcBotSimProperty<Boolean>(false));
+		properties.put("resynch",new FrcBotSimProperty<Boolean>(false));
 
 		// Miscellaney
-		properties.put("packetIndex",new FrcBotSimProperty<Integer>());
+		properties.put("packetIndex",new FrcBotSimProperty<Integer>(0));
 		properties.put("team",new FrcBotSimProperty<Integer>(0));
 		properties.put("alliance",new FrcBotSimProperty<Character>('R'));
 		properties.put("position",new FrcBotSimProperty<Character>('1'));
-		properties.put("digitalIn",new FrcBotSimProperty<Short>());
+		properties.put("digitalIn",new FrcBotSimProperty<Short>((short)0));
 
 		// Joysticks
 		properties.put("stick0axes",new FrcBotSimProperty<byte[]>());
-		properties.put("stick0buttons",new FrcBotSimProperty<Short>());
+		properties.put("stick0buttons",new FrcBotSimProperty<Short>((short)0));
 		properties.put("stick1axes",new FrcBotSimProperty<byte[]>());
-		properties.put("stick1buttons",new FrcBotSimProperty<Short>());
+		properties.put("stick1buttons",new FrcBotSimProperty<Short>((short)0));
 		properties.put("stick2axes",new FrcBotSimProperty<byte[]>());
-		properties.put("stick2buttons",new FrcBotSimProperty<Short>());
+		properties.put("stick2buttons",new FrcBotSimProperty<Short>((short)0));
 		properties.put("stick3axes",new FrcBotSimProperty<byte[]>());
-		properties.put("stick3buttons",new FrcBotSimProperty<Short>());
+		properties.put("stick3buttons",new FrcBotSimProperty<Short>((short)0));
 
 		// Analog inputs
-		properties.put("analog1",new FrcBotSimProperty<Short>());
-		properties.put("analog2",new FrcBotSimProperty<Short>());
-		properties.put("analog3",new FrcBotSimProperty<Short>());
-		properties.put("analog4",new FrcBotSimProperty<Short>());
+		properties.put("analog1",new FrcBotSimProperty<Short>((short)0));
+		properties.put("analog2",new FrcBotSimProperty<Short>((short)0));
+		properties.put("analog3",new FrcBotSimProperty<Short>((short)0));
+		properties.put("analog4",new FrcBotSimProperty<Short>((short)0));
 	}
 
     public static final short RESET_BIT = 0x80;
@@ -159,9 +161,10 @@ public final class FRCCommonControlData extends Structure {
     /**
      * Read new data in the structure
      */
+    Gyro g;
+    Accelerometer a;
     public void read() {
-        if(CRIO.getInstance().isDebugging()) System.err.println("fixme:FRCCommonControlData.read() stubbed");
-        /*packetIndex = (Integer)properties.get("packetIndex").get();
+        packetIndex = (Integer)properties.get("packetIndex").get();
         control = (short)(
 				((Boolean)properties.get("reset").get()?RESET_BIT:0x0) |
 				((Boolean)properties.get("estop").get()?ESTOP_BIT:0x0) |
@@ -191,7 +194,6 @@ public final class FRCCommonControlData extends Structure {
         analog2 = (Short)properties.get("analog2").get();
         analog3 = (Short)properties.get("analog3").get();
         analog4 = (Short)properties.get("analog4").get();
-        */
         // Other fields are used by the lower-level comm system and not needed by robot code
 	}
 

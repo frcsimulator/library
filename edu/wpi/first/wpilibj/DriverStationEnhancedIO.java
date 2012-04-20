@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.communication.FRCControl;
 import edu.wpi.first.wpilibj.parsing.IInputOutput;
 import edu.wpi.first.wpilibj.util.BoundaryException;
 import net.sourceforge.frcsimulator.internals.CRIO;
+import net.sourceforge.frcsimulator.mistware.Simulator;
 
 /**
  *
@@ -405,7 +406,7 @@ public class DriverStationEnhancedIO implements IInputOutput{
      * Merge the config portion of the DS output block into the local cache.
      */
     void mergeConfigIntoOutput(status_block_t dsOutputBlock, status_block_t localCache) {
-        if(CRIO.getInstance().isDebugging()) System.err.println("fixme:DriverStationEnhancedIO.mergeConfigIntoOutput() stubbed");
+        Simulator.fixme(DriverStationEnhancedIO.class, Thread.currentThread(), "mergeConfigIntoOutput() stubbed");
         /*localCache.data.digital = (short) ((localCache.data.digital & dsOutputBlock.data.digital_oe) |
                 (dsOutputBlock.data.digital & ~dsOutputBlock.data.digital_oe));
         localCache.data.digital_oe = dsOutputBlock.data.digital_oe;@TODO get this working, doesn't becauso of other changes

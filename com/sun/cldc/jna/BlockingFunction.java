@@ -5,6 +5,7 @@
 package com.sun.cldc.jna;
 
 import net.sourceforge.frcsimulator.internals.CRIO;
+import net.sourceforge.frcsimulator.mistware.Simulator;
 
 /**
  *
@@ -12,6 +13,6 @@ import net.sourceforge.frcsimulator.internals.CRIO;
  */
 public class BlockingFunction extends Function {
 	public void setTaskExecutor(TaskExecutor te) {
-            if(CRIO.getInstance().isDebugging()) System.err.println("fixme:TaskExecutor needs to be replaced");
+            Simulator.fixme(BlockingFunction.class, Thread.currentThread(), "BlockingFunction should not be used");
         }
 }

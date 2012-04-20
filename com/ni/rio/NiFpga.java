@@ -16,6 +16,7 @@ package com.ni.rio;
 import com.sun.cldc.jna.*;
 import com.sun.cldc.jna.ptr.IntByReference;
 import net.sourceforge.frcsimulator.internals.CRIO;
+import net.sourceforge.frcsimulator.mistware.Simulator;
 
 /**
  * The Nifpga class provides access to the FPGA on the cRIO. This is a wrapper around the accessors
@@ -28,7 +29,7 @@ public class NiFpga implements NiRioConstants
 
 	private static final class configFifoFn {
             public static int call3(int arg0, int arg1, int arg2){
-                if(CRIO.getInstance().isDebugging()) System.err.println("fixme:configFifoFn stubbed");
+                Simulator.fixme(NiFpga.class, Thread.currentThread(), "configFifoFn stubbed");
                 return 0; //@TODO actually get working
             }
         }
@@ -52,7 +53,7 @@ public class NiFpga implements NiRioConstants
 
 	private static final class startFifoFn {
             public static int call2(int arg0, int arg1){
-                if(CRIO.getInstance().isDebugging()) System.err.println("fixme:startFifoFn stubbed");
+                Simulator.fixme(NiFpga.class, Thread.currentThread(), "startFifoFn stubbed");
                 return 0; //@TODO actually get working
             }
         }
@@ -72,7 +73,7 @@ public class NiFpga implements NiRioConstants
 
 	private static final class stopFifoFn {
             public static int call2(int arg0, int arg1){
-                if(CRIO.getInstance().isDebugging()) System.err.println("fixme:stopFifoFn stubbed");
+                Simulator.fixme(NiFpga.class, Thread.currentThread(), "stopFifoFn stubbed");
                 return 0; // @TODO actually get working
             }
         }
@@ -92,7 +93,7 @@ public class NiFpga implements NiRioConstants
 
 	private static final class readFifoU32Fn {
             public static int call6(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5){
-                if(CRIO.getInstance().isDebugging()) System.err.println("fixme:readFifoU32Fn stubbed");
+                Simulator.fixme(NiFpga.class, Thread.currentThread(), "readFifoU32Fn stubbed");
                 return 0;//@TODO actually get working
             }
         }
