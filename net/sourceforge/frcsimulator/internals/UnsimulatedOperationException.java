@@ -9,5 +9,7 @@ package net.sourceforge.frcsimulator.internals;
  * @author wolf
  */
 public class UnsimulatedOperationException extends UnsupportedOperationException {
-
+	public UnsimulatedOperationException(String s) {
+		super(s);
+	}
 }
