@@ -161,8 +161,6 @@ public final class FRCCommonControlData extends Structure {
     /**
      * Read new data in the structure
      */
-    Gyro g;
-    Accelerometer a;
     public void read() {
         packetIndex = (Integer)properties.get("packetIndex").get();
         control = (short)(

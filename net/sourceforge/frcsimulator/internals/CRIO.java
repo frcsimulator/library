@@ -1,8 +1,11 @@
 package net.sourceforge.frcsimulator.internals;
 
+import edu.wpi.first.wpilibj.communication.FRCCommonControlData;
+
 /**
  * A class used by the simulator that represents a hardware CRIO.
  * @todo Is the control data part of the cRIO?
+ * @todoAnwswer In reality yes, it probably should be changed to FrcBotSimProperties though
  * @author benjamin
  */
 public class CRIO implements FrcBotSimComponent{
@@ -73,6 +76,10 @@ public class CRIO implements FrcBotSimComponent{
      */
     public void setControlBits(short control){
         m_control = control;
+    }
+    public void setEnabled(boolean enabled){
+        FRCCommonControlData a = new FRCCommonControlData();
+        a.getSimProperties().put("enabled", new FrcBotSimProperty<Boolean>(true));
     }
     /**
      * Constructs a CRIO object with default parameters.

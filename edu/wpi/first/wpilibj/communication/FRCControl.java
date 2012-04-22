@@ -24,7 +24,18 @@ public final class FRCControl {
     private static final TaskExecutor taskExecutor = new TaskExecutor("FRCControl Task executor");
 
     //	int getCommonControlData(FRCCommonControlData *data, int wait_ms);
-    private static final BlockingFunction getCommonControlDataFn = NativeLibrary.getDefaultInstance().getBlockingFunction("getCommonControlData");
+    private static final BlockingFunction getCommonControlDataFn = new BlockingFunction(){
+        public int call2(int arg0, int arg1){
+            Simulator.fixme(FRCControl.class,Thread.currentThread(), "getCommonControlDataFn stubbed");
+            taskExecutor.execute(this);
+            return 0;
+        }
+        @Override
+        public void run() {
+            Simulator.fixme(FRCControl.class, Thread.currentThread(), "not sure what to do here");
+        }
+        
+    };
     
     // 	int getDynamicControlData(UINT8 type, char *dynamicData, INT32 maxLength, int wait_ms);
     private static final BlockingFunction getDynamicControlDataFn = NativeLibrary.getDefaultInstance().getBlockingFunction("getDynamicControlData");
@@ -138,7 +149,7 @@ public final class FRCControl {
      * @return 0 if new data, 1 if no new data, 2 if access timed out.
      */
     public static int getCommonControlData(FRCCommonControlData data, int wait_ms) {
-        int res = getCommonControlDataFn.call2(data.getPointer(), wait_ms);
+        int res = getCommonControlDataFn.call2(data.getPointer().address().toUWord().toPrimitive(), wait_ms);
         if (res == 0) {
             // Copy the FRCControlData from C-accessible memory
             data.read();

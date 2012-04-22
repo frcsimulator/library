@@ -23,6 +23,6 @@ public class NativeLibrary {
 	}
 	public BlockingFunction getBlockingFunction(String funcName) {
 		Simulator.fixme(NativeLibrary.class, Thread.currentThread(), "NativeLibrary should not be used");
-		return new BlockingFunction();//@TODO should not be used
+		return new BlockingFunction(){public void run(){Simulator.fixme(BlockingFunction.class, Thread.currentThread(), "BlockingFuntion called through NativeLibrary");}};//@TODO should not be used
 	}
 }

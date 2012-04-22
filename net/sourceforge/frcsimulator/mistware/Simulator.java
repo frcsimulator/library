@@ -222,7 +222,7 @@ public class Simulator extends Thread {
             if(CRIO.getInstance().isDebugging()){
             StackTraceElement[] stackTraces;
             stackTraces = thread.getStackTrace();
-            String[] msg = {"msg",thread.getName(),stackTraces[0].toString(),stackTraces[1].toString(),source.getName(),message};
+            String[] msg = {"msg",thread.getName(),stackTraces[2].toString(),stackTraces[3].toString(),source.getName(),message};
             msg(msg);
             }
         }
@@ -230,7 +230,7 @@ public class Simulator extends Thread {
             if(CRIO.getInstance().isDebugging()){
             StackTraceElement[] stackTraces;
             stackTraces = thread.getStackTrace();
-            String[] msg = {"fixme",thread.getName(),stackTraces[0].toString(),stackTraces[1].toString(),source.getName(),reason};
+            String[] msg = {"fixme",thread.getName(),stackTraces[2].toString(),stackTraces[3].toString(),source.getName(),reason};
             msg(msg);
             }
             }
@@ -238,7 +238,7 @@ public class Simulator extends Thread {
             if(CRIO.getInstance().isDebugging()){
             StackTraceElement[] stackTraces;
             stackTraces = thread.getStackTrace();
-            String[] msg = {"fixme",thread.getName(),stackTraces[0].toString(),stackTraces[1].toString(),source.getName(),error};
+            String[] msg = {"err",thread.getName(),stackTraces[2].toString(),stackTraces[3].toString(),source.getName(),error};
             msg(msg);
             }
         }

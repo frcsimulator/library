@@ -167,7 +167,7 @@ public class NiFpga implements NiRioConstants
     
     private static final class readU32Fn {
         public static int call3(int arg0, int arg1, int arg2){
-            Simulator.fixme(NiFpga.class, Thread.currentThread(), "readU32Fn stubbed");
+//            Simulator.fixme(NiFpga.class, Thread.currentThread(), "readU32Fn stubbed"); @TODO commented out because of MASSIVE amount of output
             return 0;//@TODO actually get working
         }
     }

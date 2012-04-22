@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sourceforge.frcsimulator.internals.UnimplementedOperationException;
 import net.sourceforge.frcsimulator.internals.UnsimulatedOperationException;
+import net.sourceforge.frcsimulator.mistware.Simulator;
 
 /**
  *
@@ -41,7 +42,8 @@ public class Semaphore extends InternalSemaphore {
      * @param initialState The initial state for the semaphore to have.
      */
     public Semaphore (Options options, boolean initialState) {
-		throw new UnimplementedOperationException("Mutex semaphore not implemented yet.");
+		this(options);
+                Simulator.fixme(Semaphore.class, Thread.currentThread(), "Mutex semaphore not implemented");
 	}
 
     /**
@@ -50,7 +52,8 @@ public class Semaphore extends InternalSemaphore {
      * @param count The initial count for the semaphore to hold.
      */
     public Semaphore (Options options, int count) {
-		throw new UnimplementedOperationException("Counting semaphore not implemented yet.");
+		this(options);
+                Simulator.fixme(Semaphore.class, Thread.currentThread(), "Counting semaphore not implemented");
     }
 
 	@Override
@@ -84,7 +87,7 @@ public class Semaphore extends InternalSemaphore {
 	}
 
 	private class BooleanSemaphore extends InternalSemaphore {
-		java.util.concurrent.Semaphore semaphore;
+		java.util.concurrent.Semaphore semaphore = new java.util.concurrent.Semaphore(0);//@TODO is this number correct?
 		@Override
 		public void flush() throws SemaphoreException {
 			// TODO How do you flush a semaphore? Put it in the toilet?

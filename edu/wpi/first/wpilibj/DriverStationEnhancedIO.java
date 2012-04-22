@@ -12,13 +12,20 @@ import edu.wpi.first.wpilibj.communication.FRCControl;
 import edu.wpi.first.wpilibj.parsing.IInputOutput;
 import edu.wpi.first.wpilibj.util.BoundaryException;
 import net.sourceforge.frcsimulator.internals.CRIO;
+import net.sourceforge.frcsimulator.internals.FrcBotSimComponent;
+import net.sourceforge.frcsimulator.internals.FrcBotSimProperties;
 import net.sourceforge.frcsimulator.mistware.Simulator;
 
 /**
  *
  * @author dtjones
  */
-public class DriverStationEnhancedIO implements IInputOutput{
+public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput{
+    private FrcBotSimProperties m_simProperties = new FrcBotSimProperties();
+    @Override
+    public FrcBotSimProperties getSimProperties() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     static class output_t extends Structure {
 
