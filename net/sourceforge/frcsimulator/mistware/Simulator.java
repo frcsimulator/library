@@ -211,11 +211,35 @@ public class Simulator extends Thread {
 			return this==STOPPED||this==ERROR;
 		}
 	}
+        private static void msg(String[] sa){
+            String temp = sa[0];
+            for(int i = 1; i < sa.length; i++){
+                temp += ":" + sa[i];
+            }
+            System.err.println(temp);
+        }
+        public static void msg(Class source, Thread thread, String message){
+            if(CRIO.getInstance().isDebugging()){
+            StackTraceElement[] stackTraces;
+            stackTraces = thread.getStackTrace();
+            String[] msg = {"msg",thread.getName(),stackTraces[0].toString(),stackTraces[1].toString(),source.getName(),message};
+            msg(msg);
+            }
+        }
         public static void fixme(Class source, Thread thread, String reason){
             if(CRIO.getInstance().isDebugging()){
             StackTraceElement[] stackTraces;
             stackTraces = thread.getStackTrace();
-            System.err.println("fixme:"+thread.getName()+":"+stackTraces[stackTraces.length-1]+":"+stackTraces[stackTraces.length-2]+":"+source.getName()+":"+reason);
+            String[] msg = {"fixme",thread.getName(),stackTraces[0].toString(),stackTraces[1].toString(),source.getName(),reason};
+            msg(msg);
             }
             }
+        public static void err(Class source, Thread thread, String error){
+            if(CRIO.getInstance().isDebugging()){
+            StackTraceElement[] stackTraces;
+            stackTraces = thread.getStackTrace();
+            String[] msg = {"fixme",thread.getName(),stackTraces[0].toString(),stackTraces[1].toString(),source.getName(),error};
+            msg(msg);
+            }
+        }
 }
