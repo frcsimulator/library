@@ -33,7 +33,7 @@ public class Semaphore extends InternalSemaphore {
      */
     public Semaphore (Options options) {
 		// TODO what to do with options?
-		m_semaphore = new BooleanSemaphore();
+		throw new UnsimulatedOperationException("Mutex semaphore not implemented yet.");
     }
 
     /**
@@ -42,8 +42,12 @@ public class Semaphore extends InternalSemaphore {
      * @param initialState The initial state for the semaphore to have.
      */
     public Semaphore (Options options, boolean initialState) {
-		this(options);
-                Simulator.fixme(Semaphore.class, Thread.currentThread(), "Mutex semaphore not implemented");
+		m_semaphore = new BooleanSemaphore();
+		if (initialState) try {
+			m_semaphore.tryTake();
+		} catch (SemaphoreException ex) {
+			// Do nothing (an exception is never thrown)
+		}
 	}
 
     /**
@@ -86,44 +90,83 @@ public class Semaphore extends InternalSemaphore {
 		m_semaphore.free();
 	}
 
+	private class MutexSemaphore extends InternalSemaphore {
+		private long holder;
+		private java.util.concurrent.Semaphore semaphore;
+		@Override
+		public void flush() throws SemaphoreException {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
+
+		@Override
+		public void give() throws SemaphoreException {
+			throw new UnsupportedOperationException("Not supported yet.");
+			/*if (Thread.currentThread().getId() == holder) {
+				semaphore.release();
+			} else {
+				//TODO throw exception
+			}*/
+		}
+
+		@Override
+		public void takeMillis(int timeout) throws SemaphoreException {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
+
+		@Override
+		public boolean tryTake() throws SemaphoreException {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
+
+		@Override
+		public void close() throws SemaphoreException {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
+
+		@Override
+		public void free() throws SemaphoreException {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
+
+	}
 	private class BooleanSemaphore extends InternalSemaphore {
 		java.util.concurrent.Semaphore semaphore = new java.util.concurrent.Semaphore(0);//@TODO is this number correct?
 		@Override
-		public void flush() throws SemaphoreException {
+		public synchronized void flush() throws SemaphoreException {
 			// TODO How do you flush a semaphore? Put it in the toilet?
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 		@Override
-		public void give() throws SemaphoreException {
+		public synchronized void give() throws SemaphoreException {
 			semaphore.release();
 		}
 		@Override
-		public void takeMillis(int timeout) throws SemaphoreException {
-			try {
-				if (!semaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS)){ // Acquire failed
-					// TODO is this the correct error code?
-					throw new SemaphoreException(SemaphoreException.S_objLib_OBJ_TIMEOUT);
+		public synchronized void takeMillis(int timeout) throws SemaphoreException {
+			if (timeout == WAIT_FOREVER) {
+				semaphore.acquireUninterruptibly();
+			} else {
+				try {
+					if (!semaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS)){ // Acquire failed
+						// TODO is this the correct error code?
+						throw new SemaphoreException(SemaphoreException.S_objLib_OBJ_TIMEOUT);
+					}
+				} catch (InterruptedException ex) {
+					// TODO what should happen on interrupt??
+					throw new SemaphoreException(SemaphoreException.S_objLib_OBJ_ID_ERROR);
 				}
-			} catch (InterruptedException ex) {
-				// TODO what should happen on interrupt??
-				throw new SemaphoreException(SemaphoreException.S_objLib_OBJ_ID_ERROR);
 			}
 		}
 		@Override
-		public void takeForever() throws SemaphoreException {
-			semaphore.acquireUninterruptibly();
-		}
-		@Override
-		public boolean tryTake() throws SemaphoreException {
+		public synchronized boolean tryTake() throws SemaphoreException {
 			return semaphore.tryAcquire();
 		}
 		@Override
-		public void close() throws SemaphoreException {
+		public synchronized void close() throws SemaphoreException {
 			// TODO how on earth do you close a semaphore?
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 		@Override
-		public void free() throws SemaphoreException {
+		public synchronized void free() throws SemaphoreException {
 			// TODO And how are you supposed to free one?
 			throw new UnsupportedOperationException("Not supported yet.");
 		}

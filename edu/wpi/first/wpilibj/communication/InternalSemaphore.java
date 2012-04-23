@@ -18,7 +18,7 @@ abstract class InternalSemaphore {
 	public abstract void flush() throws SemaphoreException;
 	public abstract void give() throws SemaphoreException;
 	public abstract void takeMillis(int timeout) throws SemaphoreException;
-	public void takeForever() throws SemaphoreException {
+	public final void takeForever() throws SemaphoreException {
 		takeMillis(Semaphore.WAIT_FOREVER);
 	}
 	public abstract boolean tryTake() throws SemaphoreException;
