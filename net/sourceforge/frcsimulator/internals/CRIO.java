@@ -13,23 +13,8 @@ public class CRIO implements FrcBotSimComponent{
     private int m_year = 2010;
     private boolean debug;
     private short m_control = 0x0;
-    //10000000
-    public static final short RESET_CONTROL_BIT = 0x80;
-    //01000000
-    public static final short ESTOP_CONTROL_BIT = 0x40;
-    //00100000
-    public static final short ENABLED_CONTROL_BIT = 0x20;
-    //00010000
-    public static final short AUTONOMOUS_CONTROL_BIT = 0x10;
-    //00001000
-    public static final short FMS_ATTATCHED_CONTROL_BIT = 0x08;
-    //00000100
-    public static final short RESYNCH_CONTROL_BIT = 0x04;
-    //00000010
-    public static final short CRIO_CHECK_SUM_CONTROL_BIT = 0x02;
-    //00000001
-    public static final short FPGA_CHECK_SUM_CONTROL_BIT = 0x01;
     private CRIOModule[] m_modules = new CRIOModule[8];
+    private FRCCommonControlData frcControlData = new FRCCommonControlData();
     /**
      * Adds a simulated module at the given location to the CRIO.
      * @param module The module to be added.
@@ -64,22 +49,11 @@ public class CRIO implements FrcBotSimComponent{
         return m_modules[id-1];
     }
     /**
-     * Gets the control bits used by FRCCommonControlData and DriverStation.
-     * @return A short representation of the control bits.
+     * Gets the control data used by the DriverStation
+     * @return Th FRCCommonControlData used by the CRIO.
      */
-    public short getControlBits(){
-        return m_control;
-    }
-    /**
-     * Sets the control bits used by FRCCommonControlData and DriverStation.
-     * @param control What to set the bits to.
-     */
-    public void setControlBits(short control){
-        m_control = control;
-    }
-    public void setEnabled(boolean enabled){
-        FRCCommonControlData a = new FRCCommonControlData();
-        a.getSimProperties().put("enabled", new FrcBotSimProperty<Boolean>(true));
+    public FRCCommonControlData getControlData(){
+        return frcControlData;
     }
     /**
      * Constructs a CRIO object with default parameters.

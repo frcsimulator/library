@@ -29,12 +29,13 @@ public class ModulePresence {
         public int getValue() {
             return m_intValue;
         }
+        @Override
+        public String toString(){
+            return m_intValue==0x03?"Solenoid":m_intValue==0x02?"Digital":m_intValue==0x01?"Analog":"Unknown";
+        }
     };
 	/**
      * Determines whether the module of the given type and number is present.
-     *
-     * This method calls the appropriate C function within the NetworkCommunication
-     * library in order to get the answer.
      * @TODO verify that this actually works how it does on the real robot, the javadoc is somewhat ambiguous
      * @param moduleType The type of the module to be check.
      * @param moduleNumber The ID for this type of module to check (usually 0 or 1).
