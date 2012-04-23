@@ -14,13 +14,14 @@ import com.sun.cldc.jna.Structure;
 import com.sun.cldc.jna.TaskExecutor;
 import edu.wpi.first.wpilibj.communication.FRCCommonControlData;
 import edu.wpi.first.wpilibj.communication.Semaphore;
+import net.sourceforge.frcsimulator.internals.*;
 import net.sourceforge.frcsimulator.mistware.Simulator;
 
 /**
  * Contains the code necessary to communicate between the robot and the driver station.
  */
-public final class FRCControl {
-
+public final class FRCControl implements FrcBotSimComponent{
+    private FrcBotSimProperties m_properties;
     private static final TaskExecutor taskExecutor = new TaskExecutor("FRCControl Task executor");
 
     //	int getCommonControlData(FRCCommonControlData *data, int wait_ms);
@@ -98,6 +99,11 @@ public final class FRCControl {
     public static final int USER_DS_LCD_DATA_SIZE = 128;
 
     private FRCControl() {
+    }
+
+    @Override
+    public FrcBotSimProperties getSimProperties() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
@@ -287,18 +293,18 @@ public final class FRCControl {
      * Let the DS know that the user is loading a new app.
      */
     public static void observeUserProgramStarting() {
-        observeUserProgramStartingFn.call0();
+        RobotStatusDSReadable.setStatus("Starting");
     }
     
     public static void observeUserProgramDisabled() {
-        observeUserProgramDisabledFn.call0();
+        RobotStatusDSReadable.setStatus("Disabled");
     }
     
     public static void observeUserProgramAutonomous() {
-        observeUserProgramAutonomousFn.call0();
+        RobotStatusDSReadable.setStatus("Autonomous");
     }
     
     public static void observeUserProgramTeleop() {
-        observeUserProgramTeleopFn.call0();
+        RobotStatusDSReadable.setStatus("Teleop");
     }
 }

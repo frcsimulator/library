@@ -76,7 +76,7 @@ public class CRIO implements FrcBotSimComponent{
      * @return The current debugging mode.
      */
     public boolean isDebugging(){
-        return debug;
+        return debug;//@TODO levels of debugging
     }
     /**
      * Sets whether or not the CRIO is in debug mode.

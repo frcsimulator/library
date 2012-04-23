@@ -5,12 +5,10 @@
 package net.sourceforge.frcsimulator.mistware;
 
 import java.lang.reflect.Method;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.microedition.midlet.MIDlet;
 import net.sourceforge.frcsimulator.internals.CRIO;
-import net.sourceforge.frcsimulator.internals.UnimplementedOperationException;
 
 /**
  * The actual simulator, which runs the robot software. Handles initializing the
