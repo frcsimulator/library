@@ -1,6 +1,8 @@
 package net.sourceforge.frcsimulator.internals;
 
 import edu.wpi.first.wpilibj.communication.FRCCommonControlData;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A class used by the simulator that represents a hardware CRIO.
@@ -65,6 +67,12 @@ public class CRIO implements FrcBotSimComponent{
      * @return The current CRIO instance.
      */
     public static CRIO getInstance(){
+        if(m_kCRIO == null){
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException ex) {}
+            return getInstance();
+        }
         return m_kCRIO;
     }
     /**
