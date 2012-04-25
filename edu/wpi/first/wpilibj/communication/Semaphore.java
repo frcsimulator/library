@@ -141,7 +141,7 @@ public class Semaphore extends InternalSemaphore {
 			semaphore.release();
 		}
 		@Override
-		public synchronized void takeMillis(int timeout) throws SemaphoreException {
+		public void takeMillis(int timeout) throws SemaphoreException {
 			if (timeout == WAIT_FOREVER) {
 				semaphore.acquireUninterruptibly();
 			} else {

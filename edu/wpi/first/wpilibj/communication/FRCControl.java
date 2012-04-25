@@ -287,16 +287,7 @@ public final class FRCControl implements FrcBotSimComponent{
      * @param sem the semaphore to use
      */
     public static void setNewDataSem(Semaphore sem) {
-        Simulator.fixme(FRCControl.class, Thread.currentThread(), "setNewDataSem() stubbed");
-        try {
-            sem.give();
-            //if (sem == null || sem.m_semaphore == null) {
-            //    throw new NullPointerException("Null provided for a semaphore");
-            //setNewDataSemFn.call1(sem.m_semaphore);
-            //setNewDataSemFn.call1(sem.m_semaphore);
-        } catch (SemaphoreException ex) {
-            ex.printStackTrace();
-        }
+        CRIO.getInstance().newDataSemaphore = sem;
     }
 
     /**

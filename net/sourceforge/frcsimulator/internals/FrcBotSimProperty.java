@@ -4,6 +4,10 @@
  */
 package net.sourceforge.frcsimulator.internals;
 
+import java.util.ArrayList;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 /**
  *
  * @author wolf
@@ -11,6 +15,7 @@ package net.sourceforge.frcsimulator.internals;
 public class FrcBotSimProperty<T> {
 	public boolean setByCode, physical;
 	protected T value;
+	protected ArrayList<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
 
 	public FrcBotSimProperty() {
 
@@ -23,6 +28,18 @@ public class FrcBotSimProperty<T> {
 		return value;
 	}
 	public void set(T to) {
-		value=to;
+		if (value != to) {
+			value=to;
+			ChangeEvent event = new ChangeEvent(this);
+			for (ChangeListener c:changeListeners) {
+				c.stateChanged(event);
+			}
+		}
+	}
+	public void addChangeListener(ChangeListener c) {
+		changeListeners.add(c);
+	}
+	public void removeChangeListener(ChangeListener c) {
+		changeListeners.remove(c);
 	}
 }

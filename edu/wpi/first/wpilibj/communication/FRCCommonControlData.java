@@ -10,6 +10,10 @@ package edu.wpi.first.wpilibj.communication;
 import com.sun.cldc.jna.Structure;
 import edu.wpi.first.wpilibj.Accelerometer;
 import edu.wpi.first.wpilibj.Gyro;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import net.sourceforge.frcsimulator.internals.CRIO;
 import net.sourceforge.frcsimulator.internals.FrcBotSimComponent;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperties;
@@ -20,44 +24,76 @@ import net.sourceforge.frcsimulator.internals.SimulatedBot;
  * Structure for data exchanged between the robot and the driver station.
  */
 public final class FRCCommonControlData extends Structure implements FrcBotSimComponent {
-	FrcBotSimProperties properties;
+	private FrcBotSimProperties properties;
+	private ChangeListener onChange;
 	public FrcBotSimProperties getSimProperties() {
 		return properties;
 	}
 
 	public FRCCommonControlData() {
         properties = new FrcBotSimProperties();
+		onChange = new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent ce) {
+				try {
+					if (CRIO.getInstance().newDataSemaphore != null) {
+						CRIO.getInstance().newDataSemaphore.give();
+					}
+				} catch (SemaphoreException ex) {
+					// Nothing is ever thrown
+				}
+			}
+		};
 		// Status bytes
-		properties.put("reset", new FrcBotSimProperty<Boolean>(false));
-		properties.put("estop", new FrcBotSimProperty<Boolean>(false));
-		properties.put("enabled", new FrcBotSimProperty<Boolean>(false));
-		properties.put("autonomous", new FrcBotSimProperty<Boolean>(false));
-		properties.put("fms-attached", new FrcBotSimProperty<Boolean>(false));
-		properties.put("resynch",new FrcBotSimProperty<Boolean>(false));
+		addProperty("reset", Boolean.class);
+		addProperty("estop", Boolean.class);
+		addProperty("enabled", Boolean.class);
+		addProperty("autonomous", Boolean.class);
+		addProperty("fms-attached", Boolean.class);
+		addProperty("resynch",Boolean.class);
 
 		// Miscellaney
-		properties.put("packetIndex",new FrcBotSimProperty<Integer>(0));
-		properties.put("team",new FrcBotSimProperty<Integer>(0));
-		properties.put("alliance",new FrcBotSimProperty<Character>('R'));
-		properties.put("position",new FrcBotSimProperty<Character>('1'));
-		properties.put("digitalIn",new FrcBotSimProperty<Short>((short)0));
+		addProperty("packetIndex",Integer.class);
+		addProperty("team",Integer.class);
+		addProperty("alliance",Character.class);
+		addProperty("position",Character.class);
+		properties.get("position").set('1');
+		addProperty("digitalIn",Short.class);
 
 		// Joysticks
-		properties.put("stick0axes",new FrcBotSimProperty<byte[]>());
-		properties.put("stick0buttons",new FrcBotSimProperty<Short>((short)0));
-		properties.put("stick1axes",new FrcBotSimProperty<byte[]>());
-		properties.put("stick1buttons",new FrcBotSimProperty<Short>((short)0));
-		properties.put("stick2axes",new FrcBotSimProperty<byte[]>());
-		properties.put("stick2buttons",new FrcBotSimProperty<Short>((short)0));
-		properties.put("stick3axes",new FrcBotSimProperty<byte[]>());
-		properties.put("stick3buttons",new FrcBotSimProperty<Short>((short)0));
+		addProperty("stick0axes",byte[].class);
+		addProperty("stick0buttons",Short.class);
+		addProperty("stick1axes",byte[].class);
+		addProperty("stick1buttons",Short.class);
+		addProperty("stick2axes",byte[].class);
+		addProperty("stick2buttons",Short.class);
+		addProperty("stick3axes",byte[].class);
+		addProperty("stick3buttons",Short.class);
 
 		// Analog inputs
-		properties.put("analog1",new FrcBotSimProperty<Short>((short)0));
-		properties.put("analog2",new FrcBotSimProperty<Short>((short)0));
-		properties.put("analog3",new FrcBotSimProperty<Short>((short)0));
-		properties.put("analog4",new FrcBotSimProperty<Short>((short)0));
+		addProperty("analog1",Short.class);
+		addProperty("analog2",Short.class);
+		addProperty("analog3",Short.class);
+		addProperty("analog4",Short.class);
 		SimulatedBot.addSimComponent(this);
+	}
+	private void addProperty(String key, Class type) {
+		FrcBotSimProperty value;
+		if (type.equals(Boolean.class)) {
+			value = new FrcBotSimProperty<Boolean>(false);
+		} else if (type.equals(Short.class)) {
+			value = new FrcBotSimProperty<Short>((short)0);
+		} else if (type.equals(Integer.class)) {
+			value = new FrcBotSimProperty<Integer>(0);
+		} else if (type.equals(Character.class)) {
+			value = new FrcBotSimProperty<Character>('R');
+		} else if (type.equals(byte[].class)) {
+			value = new FrcBotSimProperty<byte[]>(new byte[6]);
+		} else {
+			value = new FrcBotSimProperty();
+		}
+		properties.put(key,value);
+		properties.get(key).addChangeListener(onChange);
 	}
 
     public static final short RESET_BIT = 0x80;

@@ -1,8 +1,7 @@
 package net.sourceforge.frcsimulator.internals;
 
 import edu.wpi.first.wpilibj.communication.FRCCommonControlData;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import edu.wpi.first.wpilibj.communication.Semaphore;
 
 /**
  * A class used by the simulator that represents a hardware CRIO.
@@ -16,7 +15,7 @@ public class CRIO implements FrcBotSimComponent{
     private boolean debug;
     private short m_control = 0x0;
     private CRIOModule[] m_modules = new CRIOModule[8];
-    private FRCCommonControlData frcControlData = new FRCCommonControlData();
+	public Semaphore newDataSemaphore;
     /**
      * Adds a simulated module at the given location to the CRIO.
      * @param module The module to be added.
@@ -51,13 +50,6 @@ public class CRIO implements FrcBotSimComponent{
         return m_modules[id-1];
     }
     /**
-     * Gets the control data used by the DriverStation
-     * @return Th FRCCommonControlData used by the CRIO.
-     */
-    public FRCCommonControlData getControlData(){
-        return frcControlData;
-    }
-    /**
      * Constructs a CRIO object with the given year(used for different configurations, like the difference between 2012 and pre-2012).
      * @param year The year of the CRIO model that this class will imitate.
      */
@@ -67,12 +59,6 @@ public class CRIO implements FrcBotSimComponent{
      * @return The current CRIO instance.
      */
     public static CRIO getInstance(){
-        if(m_kCRIO == null){
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ex) {}
-            return getInstance();
-        }
         return m_kCRIO;
     }
     /**
