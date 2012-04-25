@@ -11,11 +11,9 @@ import com.sun.cldc.jna.Structure;
 import edu.wpi.first.wpilibj.communication.FRCControl;
 import edu.wpi.first.wpilibj.parsing.IInputOutput;
 import edu.wpi.first.wpilibj.util.BoundaryException;
-import net.sourceforge.frcsimulator.internals.CRIO;
 import net.sourceforge.frcsimulator.internals.FrcBotSimComponent;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperties;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperty;
-import net.sourceforge.frcsimulator.mistware.Simulator;
 
 /**
  *
@@ -125,6 +123,7 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
             //useMemory(backingMemory);
         }
 
+        @Override
         public void read() {
             api_version = (Byte)m_simProperties.get("input_api_verision").get();
             fw_version = (Byte)m_simProperties.get("input_fw_version").get();
@@ -137,6 +136,7 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
             capsense_proximity = (Byte)m_simProperties.get("input_capsense_proximity").get();
         }
 
+        @Override
         public void write() {
             m_simProperties.get("input_api_version").set(api_version);
             m_simProperties.get("input_fw_version").set(fw_version);
@@ -166,6 +166,7 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
             data = new output_t(new Pointer(0));//@TODO actually get working
         }
 
+        @Override
         public void read() {
 
             size = (Byte)m_simProperties.get("status_size").get();
@@ -174,6 +175,7 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
             flags = (Byte)m_simProperties.get("status_flags").get();
         }
 
+        @Override
         public void write() {
             m_simProperties.get("status_size").set(size);
             m_simProperties.get("status_id").set(id);
@@ -206,16 +208,18 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
             data = new input_t(new Pointer(0));//@TODO actually get working
         }
 
+        @Override
         public void read() {
-            //size = backingNativeMemory.getByte(0);
-            //id = backingNativeMemory.getByte(1);
-            //data.read();
+            size = (Byte)m_simProperties.get("control_size").get();
+            id = (Byte)m_simProperties.get("control_id").get();
+            data.read();
         }
 
+        @Override
         public void write() {
-            //backingNativeMemory.setByte(0, size);
-            //backingNativeMemory.setByte(1, id);
-            //data.write();
+            m_simProperties.get("control_size").set(size);
+            m_simProperties.get("control_id").set(id);
+            data.write();
         }
 
         public int size() {
