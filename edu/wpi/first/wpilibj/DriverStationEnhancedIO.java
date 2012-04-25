@@ -126,27 +126,27 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
         }
 
         public void read() {
-            //api_version = backingNativeMemory.getByte(0);
-            //fw_version = backingNativeMemory.getByte(1);
-            //backingNativeMemory.getShorts(2, analog, 0, analog.length);
-            //digital = backingNativeMemory.getShort(18);
-            //backingNativeMemory.getShorts(20, accel, 0, accel.length);
-            //backingNativeMemory.getShorts(26, quad, 0, quad.length);
-            //buttons = backingNativeMemory.getByte(30);
-            //capsense_slider = backingNativeMemory.getByte(31);
-            //capsense_proximity = backingNativeMemory.getByte(32);
+            api_version = (Byte)m_simProperties.get("input_api_verision").get();
+            fw_version = (Byte)m_simProperties.get("input_fw_version").get();
+            analog = (short[])m_simProperties.get("input_analog").get();
+            digital = (Short)m_simProperties.get("input_digital").get();
+            accel = (short[])m_simProperties.get("input_accel").get();
+            quad = (short[])m_simProperties.get("input_quad").get();
+            buttons = (Byte)m_simProperties.get("input_buttons").get();
+            capsense_slider = (Byte)m_simProperties.get("input_capsense_slider").get();
+            capsense_proximity = (Byte)m_simProperties.get("input_capsense_proximity").get();
         }
 
         public void write() {
-            //backingNativeMemory.setByte(0, api_version);
-            //backingNativeMemory.setByte(1, fw_version);
-            //backingNativeMemory.setShorts(2, analog, 0, analog.length);
-            //backingNativeMemory.setShort(18, digital);
-            //backingNativeMemory.setShorts(20, accel, 0, accel.length);
-            //backingNativeMemory.setShorts(26, quad, 0, quad.length);
-            //backingNativeMemory.setByte(30, buttons);
-            //backingNativeMemory.setByte(31, capsense_slider);
-            //backingNativeMemory.setByte(32, capsense_proximity);
+            m_simProperties.get("input_api_version").set(api_version);
+            m_simProperties.get("input_fw_version").set(fw_version);
+            m_simProperties.get("input_analog").set(analog);
+            m_simProperties.get("input_digital").set(digital);
+            m_simProperties.get("input_accel").set(accel);
+            m_simProperties.get("input_quad").set(quad);
+            m_simProperties.get("input_buttons").set(buttons);
+            m_simProperties.get("input_capsense_slider").set(capsense_slider);
+            m_simProperties.get("input_capsense_proximity").set(capsense_proximity);
         }
 
         public int size() {
@@ -162,25 +162,23 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
         byte flags;
 
         {
-            allocateMemory();
-            /*data = new output_t(
-                    new Pointer(backingNativeMemory.address().toUWord().toPrimitive() + 2,
-                    output_t.size));*///@TODO actually get working
+            //allocateMemory();
+            data = new output_t(new Pointer(0));//@TODO actually get working
         }
 
         public void read() {
 
-            //size = backingNativeMemory.getByte(0);
-            //id = backingNativeMemory.getByte(1);
-            //data.read();
-            //flags = backingNativeMemory.getByte(25);
+            size = (Byte)m_simProperties.get("status_size").get();
+            id = (Byte)m_simProperties.get("status_id").get();
+            data.read();
+            flags = (Byte)m_simProperties.get("status_flags").get();
         }
 
         public void write() {
-            //backingNativeMemory.setByte(0, size);
-            //backingNativeMemory.setByte(1, id);
-            //data.write();
-            //backingNativeMemory.setByte(25, flags);
+            m_simProperties.get("status_size").set(size);
+            m_simProperties.get("status_id").set(id);
+            data.write();
+            m_simProperties.get("status_flags").set(flags);
         }
 
         public int size() {
@@ -189,7 +187,10 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
 
         public void copy(status_block_t dest) {
             write();
-            //Pointer.copyBytes(backingNativeMemory, 0, dest.backingNativeMemory, 0, size());
+            dest.data=data;
+            dest.flags=flags;
+            dest.id=id;
+            dest.size=size;
             dest.read();
         }
     }
@@ -201,10 +202,8 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
         input_t data;
 
         {
-            allocateMemory();
-            /*data = new input_t(
-                    new Pointer(backingNativeMemory.address().toUWord().toPrimitive() + 2,
-                    input_t.size));*///@TODO actually get working
+            //allocateMemory();
+            data = new input_t(new Pointer(0));//@TODO actually get working
         }
 
         public void read() {
@@ -225,8 +224,10 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
 
         public void copy(control_block_t dest) {
             write();
-            //Pointer.copyBytes(backingNativeMemory, 0, dest.backingNativeMemory, 0, size());
-            //dest.read();
+            dest.size=size;
+            dest.id=id;
+            dest.data=data;
+            dest.read();
         }
     }
 
@@ -339,7 +340,7 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
         m_outputData.size = (byte) (m_outputData.size() - 1);
         m_outputData.id = kOutputBlockID;
         // Expected to be active low, so initialize inactive.
-        //m_outputData.data.fixed_digital_out = 0x3; @TODO actually get working
+        m_outputData.data.fixed_digital_out = 0x3;// @TODO actually get working
         m_inputDataSemaphore = new Object();
         m_outputDataSemaphore = new Object();
         m_encoderOffsets[0] = 0;
@@ -352,6 +353,22 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
         m_simProperties.put("output_leds", new FrcBotSimProperty<Byte>((byte)0));
         m_simProperties.put("output_enables", new FrcBotSimProperty<Byte>((byte)0));
         m_simProperties.put("output_fixed_digital_out", new FrcBotSimProperty<Byte>((byte)0));
+        m_simProperties.put("input_api_version", new FrcBotSimProperty<Byte>((byte)0));
+        m_simProperties.put("input_fw_version", new FrcBotSimProperty<Byte>((byte)0));
+        m_simProperties.put("input_analog", new FrcBotSimProperty<short[]>(new short[8]));
+        m_simProperties.put("input_digital", new FrcBotSimProperty<Short>((short)0));
+        m_simProperties.put("input_accel", new FrcBotSimProperty<short[]>(new short[3]));
+        m_simProperties.put("input_quad", new FrcBotSimProperty<short[]>(new short[2]));
+        m_simProperties.put("input_buttons", new FrcBotSimProperty<Byte>((byte)0));
+        m_simProperties.put("input_capsense_slider", new FrcBotSimProperty<Byte>((byte)0));
+        m_simProperties.put("input_capsense_proximity", new FrcBotSimProperty<Byte>((byte)0));
+        m_simProperties.put("status_size", new FrcBotSimProperty<Byte>((byte)25));
+        m_simProperties.put("status_id", new FrcBotSimProperty<Byte>((byte)18));
+        m_simProperties.put("status_flags", new FrcBotSimProperty<Byte>((byte)0));
+        m_simProperties.put("control_size", new FrcBotSimProperty<Byte>((byte)34));
+        m_simProperties.put("control_id", new FrcBotSimProperty<Byte>((byte)17));
+        
+        
         
         
     }
@@ -412,7 +429,7 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
         synchronized (m_inputDataSemaphore) {
 
             retVal = FRCControl.getDynamicControlData(kInputBlockID, tempInputData, tempInputData.size(), 5);
-            if (retVal == 0/* && tempInputData.data.api_version == kSupportedAPIVersion*/) {//@TODO get semaphores working
+            if (retVal == 0 && tempInputData.data.api_version == kSupportedAPIVersion){
                 tempInputData.copy(m_inputData);
                 m_inputValid = true;
             } else {
@@ -426,14 +443,13 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
      * Merge the config portion of the DS output block into the local cache.
      */
     void mergeConfigIntoOutput(status_block_t dsOutputBlock, status_block_t localCache) {
-        Simulator.fixme(DriverStationEnhancedIO.class, Thread.currentThread(), "mergeConfigIntoOutput() stubbed");
-        /*localCache.data.digital = (short) ((localCache.data.digital & dsOutputBlock.data.digital_oe) |
+        localCache.data.digital = (short) ((localCache.data.digital & dsOutputBlock.data.digital_oe) |
                 (dsOutputBlock.data.digital & ~dsOutputBlock.data.digital_oe));
-        localCache.data.digital_oe = dsOutputBlock.data.digital_oe;@TODO get this working, doesn't becauso of other changes
+        localCache.data.digital_oe = dsOutputBlock.data.digital_oe;
         localCache.data.digital_pe = dsOutputBlock.data.digital_pe;
         localCache.data.pwm_period[0] = dsOutputBlock.data.pwm_period[0];
         localCache.data.pwm_period[1] = dsOutputBlock.data.pwm_period[1];
-        localCache.data.setEnables(dsOutputBlock.data.getEnables());*/
+        localCache.data.setEnables(dsOutputBlock.data.getEnables());
     }
 
     /**
