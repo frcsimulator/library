@@ -113,12 +113,13 @@ public final class UsageReporting {
      * @param feature a string to be included describing features in use on a specific resource.  Setting the same resource more than once allows you to change the feature string.
      */
     public static void report(int resource, int instanceNumber, int context, String feature) {
-        if (feature != null) {
+        /*if (feature != null) {
             Pointer featureStringPointer = Pointer.createStringBuffer(feature);
             nUsageReporting_reportFn.call4(resource, instanceNumber, context, featureStringPointer);
             //featureStringPointer.free();//TODO check to see if this can get called or not
         } else {
             nUsageReporting_reportFn.call4(resource, instanceNumber, context, Pointer.NULL());
-        }
+        }*/
+        Simulator.fixme(UsageReporting.class, Thread.currentThread(), "report() stubbed");
     }
 }

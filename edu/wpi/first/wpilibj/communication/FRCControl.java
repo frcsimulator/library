@@ -21,7 +21,7 @@ import net.sourceforge.frcsimulator.mistware.Simulator;
  * Contains the code necessary to communicate between the robot and the driver station.
  */
 public final class FRCControl implements FrcBotSimComponent{
-    private FrcBotSimProperties m_properties;
+    private FrcBotSimProperties m_simProperties;
     private static final TaskExecutor taskExecutor = new TaskExecutor("FRCControl Task executor");
 
     //	int getCommonControlData(FRCCommonControlData *data, int wait_ms);
@@ -103,7 +103,7 @@ public final class FRCControl implements FrcBotSimComponent{
 
     @Override
     public FrcBotSimProperties getSimProperties() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return m_simProperties;
     }
 
     /**
@@ -155,13 +155,14 @@ public final class FRCControl implements FrcBotSimComponent{
      * @return 0 if new data, 1 if no new data, 2 if access timed out.
      */
     public static int getCommonControlData(FRCCommonControlData data, int wait_ms) {
-        int res = getCommonControlDataFn.call2(data.getPointer().address().toUWord().toPrimitive(), wait_ms);
-        if (res == 0) {
+        //int res = getCommonControlDataFn.call2(data.getPointer().address().toUWord().toPrimitive(), wait_ms);
+        //if (res == 0) {
             // Copy the FRCControlData from C-accessible memory
-            data.read();
-        }
+        Simulator.msg(FRCControl.class, Thread.currentThread(), "not sure whether there would ever be an instance where we should NOT get new data");  
+        data.read();
+        //}
 
-        return res;
+        return 0;
     }
 
     /**
@@ -175,11 +176,12 @@ public final class FRCControl implements FrcBotSimComponent{
      */
     public static int getDynamicControlData(byte type, DynamicControlData dynamicData, int maxLength, int wait_ms) {
         synchronized (controlDataCache) {
+            Simulator.msg(FRCControl.class, Thread.currentThread(), "not sure whether we should ever NOT get new data");
             dynamicData.write();
-            int res = getDynamicControlDataFn.call4(type, dynamicData.getPointer(), maxLength, wait_ms);
-            if (res == 0)
+            //int res = getDynamicControlDataFn.call4(type, dynamicData.getPointer(), maxLength, wait_ms);
+            //if (res == 0)
                 dynamicData.read();
-            return res;
+            return 0;
         }
     }
 
