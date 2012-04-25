@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.util.BoundaryException;
 import net.sourceforge.frcsimulator.internals.CRIO;
 import net.sourceforge.frcsimulator.internals.FrcBotSimComponent;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperties;
+import net.sourceforge.frcsimulator.internals.FrcBotSimProperty;
 import net.sourceforge.frcsimulator.mistware.Simulator;
 
 /**
@@ -21,10 +22,10 @@ import net.sourceforge.frcsimulator.mistware.Simulator;
  * @author dtjones
  */
 public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput{
-    private FrcBotSimProperties m_simProperties = new FrcBotSimProperties();
+    private static FrcBotSimProperties m_simProperties = new FrcBotSimProperties();
     @Override
     public FrcBotSimProperties getSimProperties() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return m_simProperties;
     }
 
     static class output_t extends Structure {
@@ -73,28 +74,30 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
             return enables;
         }
 
+        @Override
         public void read() {
-            //digital = backingNativeMemory.getShort(0);
-            //digital_oe = backingNativeMemory.getShort(2);
-            //digital_pe = backingNativeMemory.getShort(4);
-            //backingNativeMemory.getShorts(6, pwm_compare, 0, pwm_compare.length);
-            //backingNativeMemory.getShorts(14, pwm_period, 0, pwm_period.length);
-            //backingNativeMemory.getBytes(18, dac, 0, dac.length);
-            //leds = backingNativeMemory.getByte(20); @TODO get all of these working
-            //setEnables(backingNativeMemory.getByte(21));
-            //fixed_digital_out = backingNativeMemory.getByte(22);
+            digital = (Short)m_simProperties.get("output_digital").get();
+            digital_oe = (Short)m_simProperties.get("output_digital_oe").get();
+            digital_pe = (Short)m_simProperties.get("output_digital_pe").get();
+            pwm_compare = (short[])m_simProperties.get("output_pwm_compare").get();
+            pwm_period = (short[])m_simProperties.get("output_pwm_period").get();
+            dac = (byte[])m_simProperties.get("output_dac").get();
+            leds = (Byte)m_simProperties.get("output_leds").get();
+            setEnables((Byte)m_simProperties.get("output_enables").get());
+            fixed_digital_out = (Byte)m_simProperties.get("output_fixed_digital_out").get();
         }
 
+        @Override
         public void write() {
-            //backingNativeMemory.setShort(0, digital);
-            //backingNativeMemory.setShort(2, digital_oe);
-            //backingNativeMemory.setShort(4, digital_pe);
-            //backingNativeMemory.setShorts(6, pwm_compare, 0, pwm_compare.length);
-            //backingNativeMemory.setShorts(14, pwm_period, 0, pwm_period.length);
-            //backingNativeMemory.setBytes(18, dac, 0, dac.length);
-            //backingNativeMemory.setByte(20, leds);
-            //backingNativeMemory.setByte(21, getEnables());
-            //backingNativeMemory.setByte(22, fixed_digital_out);
+            m_simProperties.get("output_digital").set(digital);
+            m_simProperties.get("output_digital_oe").set(digital_oe);
+            m_simProperties.get("output_digital_pe").set(digital_pe);
+            m_simProperties.get("output_pwm_compare").set(pwm_compare);
+            m_simProperties.get("output_pwm_period").set(pwm_period);
+            m_simProperties.get("output_dac").set(dac);
+            m_simProperties.get("output_leds").set(leds);
+            m_simProperties.get("output_enabled").set(getEnables());
+            m_simProperties.get("output_fixed_digital_out").set(fixed_digital_out);
         }
 
         public int size() {
@@ -341,6 +344,16 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
         m_outputDataSemaphore = new Object();
         m_encoderOffsets[0] = 0;
         m_encoderOffsets[1] = 0;
+        m_simProperties.put("output_digital", new FrcBotSimProperty<Short>((short)0));
+        m_simProperties.put("output_digital_oe", new FrcBotSimProperty<Short>((short)0));
+        m_simProperties.put("output_pwm_compare", new FrcBotSimProperty<short[]>(new short[4]));
+        m_simProperties.put("output_pwm_period", new FrcBotSimProperty<short[]>(new short[2]));
+        m_simProperties.put("output_dac", new FrcBotSimProperty<byte[]>(new byte[2]));
+        m_simProperties.put("output_leds", new FrcBotSimProperty<Byte>((byte)0));
+        m_simProperties.put("output_enables", new FrcBotSimProperty<Byte>((byte)0));
+        m_simProperties.put("output_fixed_digital_out", new FrcBotSimProperty<Byte>((byte)0));
+        
+        
     }
     status_block_t tempOutputData = new status_block_t();
     control_block_t tempInputData = new control_block_t();
