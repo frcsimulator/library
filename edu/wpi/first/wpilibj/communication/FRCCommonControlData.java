@@ -50,7 +50,7 @@ public final class FRCCommonControlData extends Structure implements FrcBotSimCo
 		properties.put("stick2axes",new FrcBotSimProperty<byte[]>());
 		properties.put("stick2buttons",new FrcBotSimProperty<Short>((short)0));
 		properties.put("stick3axes",new FrcBotSimProperty<byte[]>());
-		properties.put("stick3buttons",new FrcBotSimProperty<Short>());
+		properties.put("stick3buttons",new FrcBotSimProperty<Short>((short)0));
 
 		// Analog inputs
 		properties.put("analog1",new FrcBotSimProperty<Short>((short)0));
@@ -158,7 +158,6 @@ public final class FRCCommonControlData extends Structure implements FrcBotSimCo
      * Method to free the memory used by this structure
      */
     protected void free() {
-        freeMemory();
     }
 
     /**

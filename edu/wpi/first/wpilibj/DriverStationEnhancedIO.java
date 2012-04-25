@@ -94,7 +94,7 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
             m_simProperties.get("output_pwm_period").set(pwm_period);
             m_simProperties.get("output_dac").set(dac);
             m_simProperties.get("output_leds").set(leds);
-            m_simProperties.get("output_enabled").set(getEnables());
+            m_simProperties.get("output_enables").set(getEnables());
             m_simProperties.get("output_fixed_digital_out").set(fixed_digital_out);
         }
 
@@ -125,7 +125,7 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
 
         @Override
         public void read() {
-            api_version = (Byte)m_simProperties.get("input_api_verision").get();
+            api_version = (Byte)m_simProperties.get("input_api_version").get();
             fw_version = (Byte)m_simProperties.get("input_fw_version").get();
             analog = (short[])m_simProperties.get("input_analog").get();
             digital = (Short)m_simProperties.get("input_digital").get();
@@ -351,6 +351,7 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
         m_encoderOffsets[1] = 0;
         m_simProperties.put("output_digital", new FrcBotSimProperty<Short>((short)0));
         m_simProperties.put("output_digital_oe", new FrcBotSimProperty<Short>((short)0));
+        m_simProperties.put("output_digital_pe", new FrcBotSimProperty<Short>((short)0));
         m_simProperties.put("output_pwm_compare", new FrcBotSimProperty<short[]>(new short[4]));
         m_simProperties.put("output_pwm_period", new FrcBotSimProperty<short[]>(new short[2]));
         m_simProperties.put("output_dac", new FrcBotSimProperty<byte[]>(new byte[2]));

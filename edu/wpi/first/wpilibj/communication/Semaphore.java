@@ -130,7 +130,7 @@ public class Semaphore extends InternalSemaphore {
 
 	}
 	private class BooleanSemaphore extends InternalSemaphore {
-		java.util.concurrent.Semaphore semaphore = new java.util.concurrent.Semaphore(0);//@TODO is this number correct?
+		java.util.concurrent.Semaphore semaphore = new java.util.concurrent.Semaphore(1);//@TODO is this number correct?
 		@Override
 		public synchronized void flush() throws SemaphoreException {
 			// TODO How do you flush a semaphore? Put it in the toilet?

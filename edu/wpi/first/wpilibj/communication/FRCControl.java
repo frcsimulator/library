@@ -14,6 +14,8 @@ import com.sun.cldc.jna.Structure;
 import com.sun.cldc.jna.TaskExecutor;
 import edu.wpi.first.wpilibj.communication.FRCCommonControlData;
 import edu.wpi.first.wpilibj.communication.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sourceforge.frcsimulator.internals.*;
 import net.sourceforge.frcsimulator.mistware.Simulator;
 
@@ -193,11 +195,12 @@ public final class FRCControl implements FrcBotSimComponent{
      */
     public static int overrideIOConfig(DynamicControlData ioConfig, int wait_ms) {
         synchronized (ioConfigDataCache) {
+            Simulator.msg(FRCControl.class, Thread.currentThread(), "Will there ever be an instance where we should NOT get new data?");
             ioConfig.write();
-            int res = overrideIOConfigFn.call2(ioConfig.getPointer(), wait_ms);
-            if (res == 0)
+            //int res = overrideIOConfigFn.call2(ioConfig.getPointer(), wait_ms);
+            //if (res == 0)
                 ioConfig.read();
-            return res;
+            return 0;//res;
         }
     }
 
@@ -285,10 +288,15 @@ public final class FRCControl implements FrcBotSimComponent{
      */
     public static void setNewDataSem(Semaphore sem) {
         Simulator.fixme(FRCControl.class, Thread.currentThread(), "setNewDataSem() stubbed");
-        //if (sem == null || sem.m_semaphore == null) {
-        //    throw new NullPointerException("Null provided for a semaphore");
-        //}
-        //setNewDataSemFn.call1(sem.m_semaphore);
+        try {
+            sem.give();
+            //if (sem == null || sem.m_semaphore == null) {
+            //    throw new NullPointerException("Null provided for a semaphore");
+            //setNewDataSemFn.call1(sem.m_semaphore);
+            //setNewDataSemFn.call1(sem.m_semaphore);
+        } catch (SemaphoreException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**

@@ -5,22 +5,25 @@
 package edu.wpi.first.wpilibj.fpga;
 
 import com.ni.rio.NiRioStatus;
+import java.util.ArrayList;
 
 /**
  *
  * @author wolf
  */
 public abstract class tSystem implements ExpectedFPGASignature {
-
 	public static NiRioStatus status = new NiRioStatus();
     protected static int m_DeviceHandle = 0;
 	protected tSystem() {
+            if(m_DeviceHandle == 0){
 		System.out.print("FPGA Hardware GUID: ");
 		printGUID(kExpectedFPGASignature);
 		System.out.println("");
 		System.out.print("FPGA Software GUID: ");
 		printGUID(kExpectedFPGASignature);
 		System.out.println("");
+            }
+            m_DeviceHandle++;
 	}
 
 	private static void printGUID(int guid[]) {

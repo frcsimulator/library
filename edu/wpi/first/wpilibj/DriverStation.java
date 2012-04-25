@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.communication.*;
 import edu.wpi.first.wpilibj.parsing.IInputOutput;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sourceforge.frcsimulator.internals.CRIO;
 
 /**
@@ -108,7 +110,7 @@ public class DriverStation implements IInputOutput {
     private boolean m_userInAutonomous = false;
     private boolean m_userInTeleop = false;
     private boolean m_newControlData;
-    private final Semaphore m_packetDataAvailableSem;
+    //private final Semaphore m_packetDataAvailableSem;
     private DriverStationEnhancedIO m_enhancedIO = new DriverStationEnhancedIO();
 
     /**
@@ -138,10 +140,10 @@ public class DriverStation implements IInputOutput {
 
         m_batteryChannel = new AnalogChannel(kBatterySlot, kBatteryChannel);
 
-        Semaphore.Options options = new Semaphore.Options();
-        options.setPrioritySorted(true);
-        m_packetDataAvailableSem = new Semaphore(options, false);
-        FRCControl.setNewDataSem(m_packetDataAvailableSem);
+        //Semaphore.Options options = new Semaphore.Options();
+        //options.setPrioritySorted(true);
+        //m_packetDataAvailableSem = new Semaphore(options, false);
+        //FRCControl.setNewDataSem(m_packetDataAvailableSem);
 
         m_thread = new Thread(new DriverStationTask(this), "FRCDriverStation");
         m_thread.setPriority((Thread.NORM_PRIORITY + Thread.MAX_PRIORITY) / 2);
@@ -162,8 +164,8 @@ public class DriverStation implements IInputOutput {
     private void task() {
         int safetyCounter = 0;
         while (m_thread_keepalive) {
-            try {
-                m_packetDataAvailableSem.takeForever();
+    //        try {
+//                m_packetDataAvailableSem.takeForever();
                 synchronized (this) {
                     getData();
                     m_enhancedIO.updateData();
@@ -186,8 +188,13 @@ public class DriverStation implements IInputOutput {
                 if (m_userInTeleop) {
                     FRCControl.observeUserProgramTeleop();
                 }
-            } catch (SemaphoreException ex) {
+            try {
+                Thread.sleep(50);
+//            } catch (SemaphoreException ex) {
                 //
+  //          }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(DriverStation.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
