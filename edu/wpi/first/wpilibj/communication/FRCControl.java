@@ -59,16 +59,16 @@ public final class FRCControl implements FrcBotSimComponent{
     private static final BlockingFunction setNewDataSemFn = NativeLibrary.getDefaultInstance().getBlockingFunction("setNewDataSem");
 
     // void FRC_NetworkCommunication_observeUserProgramStarting(void);
-    private static final Function observeUserProgramStartingFn = NativeLibrary.getDefaultInstance().getFunction("FRC_NetworkCommunication_observeUserProgramStarting");
+    //private static final Function observeUserProgramStartingFn = NativeLibrary.getDefaultInstance().getFunction("FRC_NetworkCommunication_observeUserProgramStarting");
 
     // void FRC_NetworkCommunication_observeUserProgramDisabled(void);
-    private static final Function observeUserProgramDisabledFn = NativeLibrary.getDefaultInstance().getFunction("FRC_NetworkCommunication_observeUserProgramDisabled");
+    //private static final Function observeUserProgramDisabledFn = NativeLibrary.getDefaultInstance().getFunction("FRC_NetworkCommunication_observeUserProgramDisabled");
 
     // void FRC_NetworkCommunication_observeUserProgramAutonomous(void);
-    private static final Function observeUserProgramAutonomousFn = NativeLibrary.getDefaultInstance().getFunction("FRC_NetworkCommunication_observeUserProgramAutonomous");
+    //private static final Function observeUserProgramAutonomousFn = NativeLibrary.getDefaultInstance().getFunction("FRC_NetworkCommunication_observeUserProgramAutonomous");
 
     // void FRC_NetworkCommunication_observeUserProgramTeleop(void);
-    private static final Function observeUserProgramTeleopFn = NativeLibrary.getDefaultInstance().getFunction("FRC_NetworkCommunication_observeUserProgramTeleop");
+    //private static final Function observeUserProgramTeleopFn = NativeLibrary.getDefaultInstance().getFunction("FRC_NetworkCommunication_observeUserProgramTeleop");
 
     
     static {
@@ -294,17 +294,21 @@ public final class FRCControl implements FrcBotSimComponent{
      */
     public static void observeUserProgramStarting() {
         RobotStatusDSReadable.setStatus("Starting");
+        Simulator.fixme(FRCControl.class, Thread.currentThread(), "What should this do?");
     }
     
     public static void observeUserProgramDisabled() {
         RobotStatusDSReadable.setStatus("Disabled");
+        Simulator.fixme(FRCControl.class, Thread.currentThread(), "What should this do?");
     }
     
     public static void observeUserProgramAutonomous() {
         RobotStatusDSReadable.setStatus("Autonomous");
+        Simulator.fixme(FRCControl.class, Thread.currentThread(), "What should this do?");
     }
     
     public static void observeUserProgramTeleop() {
         RobotStatusDSReadable.setStatus("Teleop");
+        Simulator.fixme(FRCControl.class, Thread.currentThread(), "What should this do?");
     }
 }
