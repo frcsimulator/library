@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.communication.FRCCommonControlData;
  * @author benjamin
  */
 public class CRIO implements FrcBotSimComponent{
-    private static CRIO m_kCRIO = new CRIO();
+    private static CRIO m_kCRIO = new CRIO(2010);
     private int m_year = 2010;
     private boolean debug;
     private short m_control = 0x0;
@@ -55,10 +55,6 @@ public class CRIO implements FrcBotSimComponent{
     public FRCCommonControlData getControlData(){
         return frcControlData;
     }
-    /**
-     * Constructs a CRIO object with default parameters.
-     */
-    private CRIO(){}
     /**
      * Constructs a CRIO object with the given year(used for different configurations, like the difference between 2012 and pre-2012).
      * @param year The year of the CRIO model that this class will imitate.

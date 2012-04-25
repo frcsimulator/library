@@ -11,20 +11,22 @@ import com.sun.cldc.jna.Structure;
 import edu.wpi.first.wpilibj.Accelerometer;
 import edu.wpi.first.wpilibj.Gyro;
 import net.sourceforge.frcsimulator.internals.CRIO;
+import net.sourceforge.frcsimulator.internals.FrcBotSimComponent;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperties;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperty;
+import net.sourceforge.frcsimulator.internals.SimulatedBot;
 
 /**
  * Structure for data exchanged between the robot and the driver station.
  */
-public final class FRCCommonControlData extends Structure {
+public final class FRCCommonControlData extends Structure implements FrcBotSimComponent {
 	FrcBotSimProperties properties;
 	public FrcBotSimProperties getSimProperties() {
 		return properties;
 	}
 
 	public FRCCommonControlData() {
-                properties = new FrcBotSimProperties();
+        properties = new FrcBotSimProperties();
 		// Status bytes
 		properties.put("reset", new FrcBotSimProperty<Boolean>(false));
 		properties.put("estop", new FrcBotSimProperty<Boolean>(false));
@@ -48,13 +50,14 @@ public final class FRCCommonControlData extends Structure {
 		properties.put("stick2axes",new FrcBotSimProperty<byte[]>());
 		properties.put("stick2buttons",new FrcBotSimProperty<Short>((short)0));
 		properties.put("stick3axes",new FrcBotSimProperty<byte[]>());
-		properties.put("stick3buttons",new FrcBotSimProperty<Short>((short)0));
+		properties.put("stick3buttons",new FrcBotSimProperty<Short>());
 
 		// Analog inputs
 		properties.put("analog1",new FrcBotSimProperty<Short>((short)0));
 		properties.put("analog2",new FrcBotSimProperty<Short>((short)0));
 		properties.put("analog3",new FrcBotSimProperty<Short>((short)0));
 		properties.put("analog4",new FrcBotSimProperty<Short>((short)0));
+		SimulatedBot.addSimComponent(this);
 	}
 
     public static final short RESET_BIT = 0x80;

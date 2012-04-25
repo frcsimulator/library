@@ -17,6 +17,7 @@ public class SimulatedBot {
 	 */
 	public static void addSimComponent(FrcBotSimComponent component){
 		components.add(component);
+		System.out.println("Component added!");
 	}
 	public static ArrayList<FrcBotSimComponent> getSimComponents() {
 		return components;

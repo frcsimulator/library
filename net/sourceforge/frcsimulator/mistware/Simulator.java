@@ -18,7 +18,7 @@ import net.sourceforge.frcsimulator.internals.CRIO;
  */
 public class Simulator extends Thread {
 	private MIDlet midlet;
-	private Logger log = Logger.getLogger("Simulator");
+	private static Logger log = Logger.getLogger("Simulator");
 	private String midletName;
 	private Status status = Status.READY;
 	/**
@@ -124,7 +124,6 @@ public class Simulator extends Thread {
 	 * @param s
 	 */
 	private void setStatus(Status s) {
-		log.info("Status: "+s);
 		if (onStateChange != null) {
 			callStatusChangeMethod(onStateChange, s, status);
 		}
@@ -209,19 +208,19 @@ public class Simulator extends Thread {
 			return this==STOPPED||this==ERROR;
 		}
 	}
-        private static void msg(String[] sa){
+        private static String msg(String[] sa){
             String temp = sa[0];
             for(int i = 1; i < sa.length; i++){
                 temp += ":" + sa[i];
             }
-            System.err.println(temp);
+			return temp;
         }
         public static void msg(Class source, Thread thread, String message){
             if(CRIO.getInstance().isDebugging()){
             StackTraceElement[] stackTraces;
             stackTraces = thread.getStackTrace();
             String[] msg = {"msg",thread.getName(),stackTraces[2].toString(),stackTraces[3].toString(),source.getName(),message};
-            msg(msg);
+            log.log(Level.INFO, msg(msg));
             }
         }
         public static void fixme(Class source, Thread thread, String reason){
@@ -229,7 +228,7 @@ public class Simulator extends Thread {
             StackTraceElement[] stackTraces;
             stackTraces = thread.getStackTrace();
             String[] msg = {"fixme",thread.getName(),stackTraces[2].toString(),stackTraces[3].toString(),source.getName(),reason};
-            msg(msg);
+            log.log(Level.INFO, msg(msg));
             }
             }
         public static void err(Class source, Thread thread, String error){
@@ -237,7 +236,7 @@ public class Simulator extends Thread {
             StackTraceElement[] stackTraces;
             stackTraces = thread.getStackTrace();
             String[] msg = {"err",thread.getName(),stackTraces[2].toString(),stackTraces[3].toString(),source.getName(),error};
-            msg(msg);
+            log.log(Level.WARNING,msg(msg));
             }
         }
 }
