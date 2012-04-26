@@ -162,8 +162,7 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
         byte flags;
 
         {
-            //allocateMemory();
-            data = new output_t(new Pointer(0));//@TODO actually get working
+            data = new output_t(new Pointer(0));
         }
 
         @Override
@@ -205,7 +204,7 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
 
         {
             //allocateMemory();
-            data = new input_t(new Pointer(0));//@TODO actually get working
+            data = new input_t(new Pointer(0));
         }
 
         @Override
@@ -344,7 +343,7 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
         m_outputData.size = (byte) (m_outputData.size() - 1);
         m_outputData.id = kOutputBlockID;
         // Expected to be active low, so initialize inactive.
-        m_outputData.data.fixed_digital_out = 0x3;// @TODO actually get working
+        m_outputData.data.fixed_digital_out = 0x3;
         m_inputDataSemaphore = new Object();
         m_outputDataSemaphore = new Object();
         m_encoderOffsets[0] = 0;
