@@ -68,6 +68,10 @@ public class AnalogModule extends Module {
     protected AnalogModule(final int moduleNumber) {
         super(ModulePresence.ModuleType.kAnalog, moduleNumber);
 
+        n_simProperties.put("sampleRateSet", new FrcBotSimProperty<Boolean>(false));
+        n_simProperties.put("numChannelsToActivate", new FrcBotSimProperty<Integer>(0));
+        //n_simProperties.put("accumulatorOffset", new FrcBotSimProperty<Long>((long)0)); @TODO see if this is needed
+        
         m_module = new tAI(moduleNumber - 1);
         setNumChannelsToActivate(SensorBase.kAnalogChannels);
         setSampleRate(AnalogModule.kDefaultSampleRate);
@@ -77,9 +81,6 @@ public class AnalogModule extends Module {
             setAverageBits(i + 1, kDefaultAverageBits);
             setOversampleBits(i + 1, kDefaultOversampleBits);
         }
-        n_simProperties.put("sampleRateSet", new FrcBotSimProperty<Boolean>(false));
-        n_simProperties.put("numChannelsToActivate", new FrcBotSimProperty<Integer>(0));
-        //n_simProperties.put("accumulatorOffset", new FrcBotSimProperty<Long>((long)0)); @TODO see if this is needed
     }
 
     /**

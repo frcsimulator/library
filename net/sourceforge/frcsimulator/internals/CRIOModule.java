@@ -19,7 +19,6 @@ public class CRIOModule implements FrcBotSimComponent{
         if(type<0x1||type>0x3){throw new InvalidModuleException();}
         m_simProperties = new FrcBotSimProperties();
         m_simProperties.put("type", new FrcBotSimProperty<Integer>(type));
-        SimulatedBot.addSimComponent(this);
     }
     /**
      * Gets the type of this module as specified in the constructor.
