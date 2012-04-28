@@ -30,10 +30,13 @@ public class FrcBotSimProperty<T> {
 	public void set(T to) {
 		if (value != to) {
 			value=to;
-			ChangeEvent event = new ChangeEvent(this);
-			for (ChangeListener c:changeListeners) {
-				c.stateChanged(event);
-			}
+			triggerChange();
+		}
+	}
+	protected void triggerChange() {
+		ChangeEvent event = new ChangeEvent(this);
+		for (ChangeListener c:changeListeners) {
+			c.stateChanged(event);
 		}
 	}
 	public void addChangeListener(ChangeListener c) {
