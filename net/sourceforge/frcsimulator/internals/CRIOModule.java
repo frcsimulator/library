@@ -9,7 +9,7 @@ package net.sourceforge.frcsimulator.internals;
  * @author benjamin
  */
 public class CRIOModule implements FrcBotSimComponent{
-    private int m_type = 0x0;
+    private FrcBotSimProperties m_simProperties;
     /**
      * Creates a module of the given type to be used by the CRIO class.
      * @param type The type of module to be created: Analog, Digital, or Solenoid.
@@ -17,14 +17,16 @@ public class CRIOModule implements FrcBotSimComponent{
      */
     public CRIOModule(int type) throws ModuleException{
         if(type<0x1||type>0x3){throw new InvalidModuleException();}
-        m_type=type;
+        m_simProperties = new FrcBotSimProperties();
+        m_simProperties.put("type", new FrcBotSimProperty<Integer>(type));
+        SimulatedBot.addSimComponent(this);
     }
     /**
      * Gets the type of this module as specified in the constructor.
      * @return The type of this module.
      */
     public int getType(){
-        return m_type;
+        return (Integer)m_simProperties.get("type").get();
     }
     /**
      * Gets the properties of this module that can be parsed by the simulator or an external program.
@@ -32,7 +34,7 @@ public class CRIOModule implements FrcBotSimComponent{
      */
     @Override
     public FrcBotSimProperties getSimProperties() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return m_simProperties;
     }
     
 }

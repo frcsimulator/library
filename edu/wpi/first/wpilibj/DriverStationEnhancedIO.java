@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.util.BoundaryException;
 import net.sourceforge.frcsimulator.internals.FrcBotSimComponent;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperties;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperty;
+import net.sourceforge.frcsimulator.internals.SimulatedBot;
 
 /**
  *
@@ -74,28 +75,28 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
 
         @Override
         public void read() {
-            digital = (Short)m_simProperties.get("output_digital").get();
-            digital_oe = (Short)m_simProperties.get("output_digital_oe").get();
-            digital_pe = (Short)m_simProperties.get("output_digital_pe").get();
-            pwm_compare = (short[])m_simProperties.get("output_pwm_compare").get();
-            pwm_period = (short[])m_simProperties.get("output_pwm_period").get();
-            dac = (byte[])m_simProperties.get("output_dac").get();
-            leds = (Byte)m_simProperties.get("output_leds").get();
-            setEnables((Byte)m_simProperties.get("output_enables").get());
-            fixed_digital_out = (Byte)m_simProperties.get("output_fixed_digital_out").get();
+            digital = (Short)((FrcBotSimProperties)m_simProperties.get("output").get()).get("digital").get();
+            digital_oe = (Short)((FrcBotSimProperties)m_simProperties.get("output").get()).get("digital_oe").get();
+            digital_pe = (Short)((FrcBotSimProperties)m_simProperties.get("output").get()).get("digital_pe").get();
+            pwm_compare = (short[])((FrcBotSimProperties)m_simProperties.get("output").get()).get("pwm_compare").get();
+            pwm_period = (short[])((FrcBotSimProperties)m_simProperties.get("output").get()).get("pwm_period").get();
+            dac = (byte[])((FrcBotSimProperties)m_simProperties.get("output").get()).get("dac").get();
+            leds = (Byte)((FrcBotSimProperties)m_simProperties.get("output").get()).get("leds").get();
+            setEnables((Byte)((FrcBotSimProperties)m_simProperties.get("output").get()).get("enables").get());
+            fixed_digital_out = (Byte)((FrcBotSimProperties)m_simProperties.get("output").get()).get("fixed_digital_out").get();
         }
 
         @Override
         public void write() {
-            m_simProperties.get("output_digital").set(digital);
-            m_simProperties.get("output_digital_oe").set(digital_oe);
-            m_simProperties.get("output_digital_pe").set(digital_pe);
-            m_simProperties.get("output_pwm_compare").set(pwm_compare);
-            m_simProperties.get("output_pwm_period").set(pwm_period);
-            m_simProperties.get("output_dac").set(dac);
-            m_simProperties.get("output_leds").set(leds);
-            m_simProperties.get("output_enables").set(getEnables());
-            m_simProperties.get("output_fixed_digital_out").set(fixed_digital_out);
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).get("digital").set(digital);
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).get("digital_oe").set(digital_oe);
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).get("digital_pe").set(digital_pe);
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).get("pwm_compare").set(pwm_compare);
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).get("pwm_period").set(pwm_period);
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).get("dac").set(dac);
+           ((FrcBotSimProperties)m_simProperties.get("output").get()).get("leds").set(leds);
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).get("enables").set(getEnables());
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).get("fixed_digital_out").set(fixed_digital_out);
         }
 
         public int size() {
@@ -125,28 +126,28 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
 
         @Override
         public void read() {
-            api_version = (Byte)m_simProperties.get("input_api_version").get();
-            fw_version = (Byte)m_simProperties.get("input_fw_version").get();
-            analog = (short[])m_simProperties.get("input_analog").get();
-            digital = (Short)m_simProperties.get("input_digital").get();
-            accel = (short[])m_simProperties.get("input_accel").get();
-            quad = (short[])m_simProperties.get("input_quad").get();
-            buttons = (Byte)m_simProperties.get("input_buttons").get();
-            capsense_slider = (Byte)m_simProperties.get("input_capsense_slider").get();
-            capsense_proximity = (Byte)m_simProperties.get("input_capsense_proximity").get();
+            api_version = (Byte)((FrcBotSimProperties)m_simProperties.get("input").get()).get("api_version").get();
+            fw_version = (Byte)((FrcBotSimProperties)m_simProperties.get("input").get()).get("fw_version").get();
+            analog = (short[])((FrcBotSimProperties)m_simProperties.get("input").get()).get("analog").get();
+            digital = (Short)((FrcBotSimProperties)m_simProperties.get("input").get()).get("digital").get();
+            accel = (short[])((FrcBotSimProperties)m_simProperties.get("input").get()).get("accel").get();
+            quad = (short[])((FrcBotSimProperties)m_simProperties.get("input").get()).get("quad").get();
+            buttons = (Byte)((FrcBotSimProperties)m_simProperties.get("input").get()).get("buttons").get();
+            capsense_slider = (Byte)((FrcBotSimProperties)m_simProperties.get("input").get()).get("capsense_slider").get();
+            capsense_proximity = (Byte)((FrcBotSimProperties)m_simProperties.get("input").get()).get("capsense_proximity").get();
         }
 
         @Override
         public void write() {
-            m_simProperties.get("input_api_version").set(api_version);
-            m_simProperties.get("input_fw_version").set(fw_version);
-            m_simProperties.get("input_analog").set(analog);
-            m_simProperties.get("input_digital").set(digital);
-            m_simProperties.get("input_accel").set(accel);
-            m_simProperties.get("input_quad").set(quad);
-            m_simProperties.get("input_buttons").set(buttons);
-            m_simProperties.get("input_capsense_slider").set(capsense_slider);
-            m_simProperties.get("input_capsense_proximity").set(capsense_proximity);
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).get("api_version").set(api_version);
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).get("fw_version").set(fw_version);
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).get("analog").set(analog);
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).get("digital").set(digital);
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).get("accel").set(accel);
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).get("quad").set(quad);
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).get("buttons").set(buttons);
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).get("capsense_slider").set(capsense_slider);
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).get("capsense_proximity").set(capsense_proximity);
         }
 
         public int size() {
@@ -168,18 +169,18 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
         @Override
         public void read() {
 
-            size = (Byte)m_simProperties.get("status_size").get();
-            id = (Byte)m_simProperties.get("status_id").get();
+            size = (Byte)((FrcBotSimProperties)m_simProperties.get("status").get()).get("size").get();
+            id = (Byte)((FrcBotSimProperties)m_simProperties.get("status").get()).get("id").get();
             data.read();
-            flags = (Byte)m_simProperties.get("status_flags").get();
+            flags = (Byte)((FrcBotSimProperties)m_simProperties.get("status").get()).get("flags").get();
         }
 
         @Override
         public void write() {
-            m_simProperties.get("status_size").set(size);
-            m_simProperties.get("status_id").set(id);
+            ((FrcBotSimProperties)m_simProperties.get("status").get()).get("size").set(size);
+            ((FrcBotSimProperties)m_simProperties.get("status").get()).get("id").set(id);
             data.write();
-            m_simProperties.get("status_flags").set(flags);
+            ((FrcBotSimProperties)m_simProperties.get("status").get()).get("flags").set(flags);
         }
 
         public int size() {
@@ -209,15 +210,15 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
 
         @Override
         public void read() {
-            size = (Byte)m_simProperties.get("control_size").get();
-            id = (Byte)m_simProperties.get("control_id").get();
+            size = (Byte)((FrcBotSimProperties)m_simProperties.get("status").get()).get("size").get();
+            id = (Byte)((FrcBotSimProperties)m_simProperties.get("status").get()).get("id").get();
             data.read();
         }
 
         @Override
         public void write() {
-            m_simProperties.get("control_size").set(size);
-            m_simProperties.get("control_id").set(id);
+            ((FrcBotSimProperties)m_simProperties.get("status").get()).get("size").set(size);
+            ((FrcBotSimProperties)m_simProperties.get("status").get()).get("id").set(id);
             data.write();
         }
 
@@ -348,30 +349,42 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
         m_outputDataSemaphore = new Object();
         m_encoderOffsets[0] = 0;
         m_encoderOffsets[1] = 0;
-        m_simProperties.put("output_digital", new FrcBotSimProperty<Short>((short)0));
-        m_simProperties.put("output_digital_oe", new FrcBotSimProperty<Short>((short)0));
-        m_simProperties.put("output_digital_pe", new FrcBotSimProperty<Short>((short)0));
-        m_simProperties.put("output_pwm_compare", new FrcBotSimProperty<short[]>(new short[4]));
-        m_simProperties.put("output_pwm_period", new FrcBotSimProperty<short[]>(new short[2]));
-        m_simProperties.put("output_dac", new FrcBotSimProperty<byte[]>(new byte[2]));
-        m_simProperties.put("output_leds", new FrcBotSimProperty<Byte>((byte)0));
-        m_simProperties.put("output_enables", new FrcBotSimProperty<Byte>((byte)0));
-        m_simProperties.put("output_fixed_digital_out", new FrcBotSimProperty<Byte>((byte)0));
-        m_simProperties.put("input_api_version", new FrcBotSimProperty<Byte>((byte)0));
-        m_simProperties.put("input_fw_version", new FrcBotSimProperty<Byte>((byte)0));
-        m_simProperties.put("input_analog", new FrcBotSimProperty<short[]>(new short[8]));
-        m_simProperties.put("input_digital", new FrcBotSimProperty<Short>((short)0));
-        m_simProperties.put("input_accel", new FrcBotSimProperty<short[]>(new short[3]));
-        m_simProperties.put("input_quad", new FrcBotSimProperty<short[]>(new short[2]));
-        m_simProperties.put("input_buttons", new FrcBotSimProperty<Byte>((byte)0));
-        m_simProperties.put("input_capsense_slider", new FrcBotSimProperty<Byte>((byte)0));
-        m_simProperties.put("input_capsense_proximity", new FrcBotSimProperty<Byte>((byte)0));
-        m_simProperties.put("status_size", new FrcBotSimProperty<Byte>((byte)25));
-        m_simProperties.put("status_id", new FrcBotSimProperty<Byte>((byte)18));
-        m_simProperties.put("status_flags", new FrcBotSimProperty<Byte>((byte)0));
-        m_simProperties.put("control_size", new FrcBotSimProperty<Byte>((byte)34));
-        m_simProperties.put("control_id", new FrcBotSimProperty<Byte>((byte)17));
-        
+        m_simProperties.put("output",new FrcBotSimProperty<FrcBotSimProperties>(new FrcBotSimProperties()));
+        {
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).put("digital", new FrcBotSimProperty<Short>((short)0));
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).put("digital_oe", new FrcBotSimProperty<Short>((short)0));
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).put("digital_pe", new FrcBotSimProperty<Short>((short)0));
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).put("pwm_compare", new FrcBotSimProperty<short[]>(new short[4]));
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).put("pwm_period", new FrcBotSimProperty<short[]>(new short[2]));
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).put("dac", new FrcBotSimProperty<byte[]>(new byte[2]));
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).put("leds", new FrcBotSimProperty<Byte>((byte)0));
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).put("enables", new FrcBotSimProperty<Byte>((byte)0));
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).put("fixed_digital_out", new FrcBotSimProperty<Byte>((byte)0));
+        }
+        m_simProperties.put("input",new FrcBotSimProperty<FrcBotSimProperties>(new FrcBotSimProperties()));
+        {
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).put("api_version", new FrcBotSimProperty<Byte>((byte)0));
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).put("fw_version", new FrcBotSimProperty<Byte>((byte)0));
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).put("analog", new FrcBotSimProperty<short[]>(new short[8]));
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).put("digital", new FrcBotSimProperty<Short>((short)0));
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).put("accel", new FrcBotSimProperty<short[]>(new short[3]));
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).put("quad", new FrcBotSimProperty<short[]>(new short[2]));
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).put("buttons", new FrcBotSimProperty<Byte>((byte)0));
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).put("capsense_slider", new FrcBotSimProperty<Byte>((byte)0));
+            ((FrcBotSimProperties)m_simProperties.get("input").get()).put("capsense_proximity", new FrcBotSimProperty<Byte>((byte)0));
+        }
+        m_simProperties.put("status", new FrcBotSimProperty<FrcBotSimProperties>(new FrcBotSimProperties()));
+        {
+            ((FrcBotSimProperties)m_simProperties.get("status").get()).put("size", new FrcBotSimProperty<Byte>((byte)25));
+            ((FrcBotSimProperties)m_simProperties.get("status").get()).put("id", new FrcBotSimProperty<Byte>((byte)18));
+            ((FrcBotSimProperties)m_simProperties.get("status").get()).put("flags", new FrcBotSimProperty<Byte>((byte)0));
+        }
+        m_simProperties.put("control", new FrcBotSimProperty<FrcBotSimProperties>(new FrcBotSimProperties()));
+        {
+            ((FrcBotSimProperties)m_simProperties.get("control").get()).put("size", new FrcBotSimProperty<Byte>((byte)34));
+            ((FrcBotSimProperties)m_simProperties.get("control").get()).put("id", new FrcBotSimProperty<Byte>((byte)17));
+        }
+        SimulatedBot.addSimComponent(this);
         
         
         

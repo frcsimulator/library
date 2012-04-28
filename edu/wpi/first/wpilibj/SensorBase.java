@@ -10,6 +10,8 @@ package edu.wpi.first.wpilibj;
 import edu.wpi.first.wpilibj.communication.ModulePresence;
 import net.sourceforge.frcsimulator.internals.FrcBotSimComponent;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperties;
+import net.sourceforge.frcsimulator.internals.FrcBotSimProperty;
+import net.sourceforge.frcsimulator.internals.SimulatedBot;
 
 /**
  * Base class for all sensors.
@@ -17,7 +19,7 @@ import net.sourceforge.frcsimulator.internals.FrcBotSimProperties;
  * channels and error processing.
  */
 public class SensorBase implements FrcBotSimComponent{
-
+   protected static FrcBotSimProperties n_simProperties;
     /**
      * Ticks per microsecond
      */
@@ -50,15 +52,16 @@ public class SensorBase implements FrcBotSimComponent{
      * Number of relay channels per sidecar
      */
     public static final int kRelayChannels = 8;
-    
-    private static int m_defaultAnalogModule = 1;
-    private static int m_defaultDigitalModule = 1;
-    private static int m_defaultSolenoidModule = 1;
 
     /**
      * Creates an instance of the sensor base and gets an FPGA handle
      */
     public SensorBase() {
+        n_simProperties = new FrcBotSimProperties();
+        n_simProperties.put("defaultAnalogModule", new FrcBotSimProperty<Integer>(1));
+        n_simProperties.put("defaultDigitalModule", new FrcBotSimProperty<Integer>(1));
+        n_simProperties.put("defaultSolenoidModule", new FrcBotSimProperty<Integer>(1));
+        SimulatedBot.addSimComponent(this);
     }
 
     /**
@@ -71,7 +74,7 @@ public class SensorBase implements FrcBotSimComponent{
      */
     public static void setDefaultDigitalModule(final int moduleNumber) {
         checkDigitalModule(moduleNumber);
-        SensorBase.m_defaultDigitalModule = moduleNumber;
+        n_simProperties.get("defaultDigitalModule").set(moduleNumber);
     }
 
     /**
@@ -84,7 +87,7 @@ public class SensorBase implements FrcBotSimComponent{
      */
     public static void setDefaultAnalogModule(final int moduleNumber) {
         checkAnalogModule(moduleNumber);
-        SensorBase.m_defaultAnalogModule = moduleNumber;
+        n_simProperties.get("defaultAnalogModule").set(moduleNumber);
     }
 
     /**
@@ -94,7 +97,7 @@ public class SensorBase implements FrcBotSimComponent{
      */
     public static void setDefaultSolenoidModule(final int moduleNumber) {
         checkSolenoidModule(moduleNumber);
-        SensorBase.m_defaultSolenoidModule = moduleNumber;
+        n_simProperties.get("defaultSolenoidModule").set(moduleNumber);
     }
 
     /**
@@ -224,7 +227,7 @@ public class SensorBase implements FrcBotSimComponent{
      * @return The number of the default analog module.
      */
     public static int getDefaultAnalogModule() {
-        return SensorBase.m_defaultAnalogModule;
+        return (Integer)n_simProperties.get("defaultAnalogModule").get();
     }
 
     /**
@@ -233,7 +236,7 @@ public class SensorBase implements FrcBotSimComponent{
      * @return The number of the default analog module.
      */
     public static int getDefaultDigitalModule() {
-        return SensorBase.m_defaultDigitalModule;
+        return (Integer)n_simProperties.get("defaultDigitalModule").get();
     }
 
     /**
@@ -242,7 +245,7 @@ public class SensorBase implements FrcBotSimComponent{
      * @return The number of the default analog module.
      */
     public static int getDefaultSolenoidModule() {
-        return SensorBase.m_defaultSolenoidModule;
+        return (Integer)n_simProperties.get("defaultDigitalModule").get();
     }
 
     /**
@@ -253,6 +256,6 @@ public class SensorBase implements FrcBotSimComponent{
 
     @Override
     public FrcBotSimProperties getSimProperties() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return n_simProperties;
     }
 }

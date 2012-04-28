@@ -10,6 +10,7 @@ package edu.wpi.first.wpilibj;
 import edu.wpi.first.wpilibj.fpga.tAI;
 import edu.wpi.first.wpilibj.communication.AICalibration;
 import edu.wpi.first.wpilibj.communication.ModulePresence;
+import net.sourceforge.frcsimulator.internals.FrcBotSimProperty;
 
 /**
  * Analog Module class.
@@ -37,9 +38,6 @@ public class AnalogModule extends Module {
      */
     public static final double kDefaultSampleRate = 50000.0;
     private tAI m_module;
-    private boolean m_sampleRateSet;
-    private long m_accumulatorOffset;
-    private int m_numChannelsToActivate;
     private final Object syncRoot = new Object();
 
     /**
@@ -79,6 +77,9 @@ public class AnalogModule extends Module {
             setAverageBits(i + 1, kDefaultAverageBits);
             setOversampleBits(i + 1, kDefaultOversampleBits);
         }
+        n_simProperties.put("sampleRateSet", new FrcBotSimProperty<Boolean>(false));
+        n_simProperties.put("numChannelsToActivate", new FrcBotSimProperty<Integer>(0));
+        //n_simProperties.put("accumulatorOffset", new FrcBotSimProperty<Long>((long)0)); @TODO see if this is needed
     }
 
     /**
@@ -93,7 +94,7 @@ public class AnalogModule extends Module {
         // TODO: This will change when variable size scan lists are implemented.
         // TODO: Need float comparison with epsilon.
         // wpi_assert(!sampleRateSet || GetSampleRate() == samplesPerSecond);
-        m_sampleRateSet = true;
+        n_simProperties.get("sampleRateSet").set(true);
 
         // Compute the convert rate
         final int ticksPerSample = (int) ((double)AnalogModule.kTimebase / samplesPerSecond);
@@ -150,10 +151,10 @@ public class AnalogModule extends Module {
      * @return Value to write to the active channels field.
      */
     private int getNumChannelsToActivate() {
-        if (m_numChannelsToActivate == 0) {
+        if ((Integer)n_simProperties.get("numChannelsToActivate").get() == 0) {
             return getNumActiveChannels();
         }
-        return m_numChannelsToActivate;
+        return (Integer)n_simProperties.get("numChannelsToActivate").get();
     }
 
     /**
@@ -165,7 +166,7 @@ public class AnalogModule extends Module {
      * @param channels Number of active channels.
      */
     private void setNumChannelsToActivate(final int channels) {
-        m_numChannelsToActivate = channels;
+        n_simProperties.get("numChannelsToActivate").set(channels);
     }
 
     /**
