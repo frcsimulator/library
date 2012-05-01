@@ -18,7 +18,8 @@ import net.sourceforge.frcsimulator.internals.CRIO;
  */
 public class Simulator extends Thread {
 	private MIDlet midlet;
-	private static Logger log = Logger.getLogger("Simulator");
+	// Anonymous logger so will work in applet
+	private static Logger log = Logger.getAnonymousLogger();//Logger.getLogger("Simulator");
 	private String midletName;
 	private Status status = Status.READY;
 	/**

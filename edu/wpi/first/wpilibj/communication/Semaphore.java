@@ -4,16 +4,12 @@
  */
 package edu.wpi.first.wpilibj.communication;
 
-import com.sun.cldc.jna.Pointer;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import net.sourceforge.frcsimulator.internals.UnimplementedOperationException;
-import net.sourceforge.frcsimulator.internals.UnsimulatedOperationException;
-import net.sourceforge.frcsimulator.mistware.Simulator;
 
 /**
- *
+ * Emulates various VXWorks semaphores using Java native methods.
+ * Note: The options passed in currently are completely ignored.
+ * @todo do something with the options?
  * @author wolf
  */
 public class Semaphore extends InternalSemaphore {
@@ -28,21 +24,21 @@ public class Semaphore extends InternalSemaphore {
 	private Options options;
 	private InternalSemaphore m_semaphore;
 	/**
-     * Create a new semaphore.
+     * Create a new mutex semaphore.
      * @param options The options to create the semaphore with.
      */
     public Semaphore (Options options) {
 		// TODO what to do with options?
-		throw new UnsimulatedOperationException("Mutex semaphore not implemented yet.");
+		m_semaphore = new MutexSemaphore();
     }
 
     /**
-     * Create a semaphore with the given initial state.
+     * Create a boolean semaphore with the given initial state.
      * @param options The options to create the semaphore with.
      * @param initialState The initial state for the semaphore to have.
      */
     public Semaphore (Options options, boolean initialState) {
-		m_semaphore = new BooleanSemaphore();
+		m_semaphore = new CountingSemaphore(1);
 		if (initialState) try {
 			m_semaphore.tryTake();
 		} catch (SemaphoreException ex) {
@@ -51,86 +47,94 @@ public class Semaphore extends InternalSemaphore {
 	}
 
     /**
-     * Create a counting semaphore with the given value.
+     * Create a counting semaphore with the given number of permits.
      * @param options The options to create the semaphore with.
      * @param count The initial count for the semaphore to hold.
      */
     public Semaphore (Options options, int count) {
-		this(options);
-                Simulator.fixme(Semaphore.class, Thread.currentThread(), "Counting semaphore not implemented");
+		m_semaphore = new CountingSemaphore(count);
     }
-
+	/**
+	 * Unblock every task that is blocked by the semaphore.
+	 * @throws SemaphoreException
+	 */
 	@Override
 	public void flush() throws SemaphoreException {
 		m_semaphore.flush();
 	}
-
+	/**
+	 * Release the semaphore.
+	 * @throws SemaphoreException
+	 */
 	@Override
 	public void give() throws SemaphoreException {
 		m_semaphore.give();
 	}
-
-	@Override
-	public void takeMillis(int timeout) throws SemaphoreException {
-		m_semaphore.takeMillis(timeout);
-	}
-
+	/**
+	 * Attempt to take the semaphore, but don't block.
+	 * @return True if the semaphore was successfully taken, false otherwise
+	 * @throws SemaphoreException
+	 */
 	@Override
 	public boolean tryTake() throws SemaphoreException {
 		return m_semaphore.tryTake();
 	}
 
 	@Override
-	public void close() throws SemaphoreException {
-		m_semaphore.close();
+	protected void doWaitForever() throws SemaphoreException, InterruptedException {
+		m_semaphore.doWaitForever();
 	}
 
 	@Override
-	public void free() throws SemaphoreException {
-		m_semaphore.free();
+	protected void doWaitMillis(int timeout) throws SemaphoreException, InterruptedException {
+		m_semaphore.doWaitMillis(timeout);
 	}
-
+	/**
+	 * A mutex semaphore implementation using only Object.wait() & Object.notify().
+	 */
 	private class MutexSemaphore extends InternalSemaphore {
-		private long holder;
-		private java.util.concurrent.Semaphore semaphore;
+		private final Object semaphore = new Object();
 		@Override
 		public void flush() throws SemaphoreException {
-			throw new UnsupportedOperationException("Not supported yet.");
+			synchronized(semaphore) {
+				semaphore.notifyAll();
+			}
 		}
 
 		@Override
 		public void give() throws SemaphoreException {
-			throw new UnsupportedOperationException("Not supported yet.");
-			/*if (Thread.currentThread().getId() == holder) {
-				semaphore.release();
-			} else {
-				//TODO throw exception
-			}*/
-		}
-
-		@Override
-		public void takeMillis(int timeout) throws SemaphoreException {
-			throw new UnsupportedOperationException("Not supported yet.");
+			synchronized(semaphore) {
+				semaphore.notify();
+			}
 		}
 
 		@Override
 		public boolean tryTake() throws SemaphoreException {
-			throw new UnsupportedOperationException("Not supported yet.");
+			return Thread.holdsLock(semaphore);
 		}
 
 		@Override
-		public void close() throws SemaphoreException {
-			throw new UnsupportedOperationException("Not supported yet.");
+		protected void doWaitForever() throws SemaphoreException, InterruptedException {
+			synchronized(semaphore) {
+				semaphore.wait();
+			}
 		}
 
 		@Override
-		public void free() throws SemaphoreException {
-			throw new UnsupportedOperationException("Not supported yet.");
+		protected void doWaitMillis(int timeout) throws SemaphoreException, InterruptedException {
+			synchronized (semaphore) {
+				semaphore.wait(timeout);
+			}
 		}
-
 	}
-	private class BooleanSemaphore extends InternalSemaphore {
-		java.util.concurrent.Semaphore semaphore = new java.util.concurrent.Semaphore(1);//@TODO is this number correct?
+	/**
+	 * A counting semaphore implementation using Java native semaphores.
+	 */
+	private class CountingSemaphore extends InternalSemaphore {
+		java.util.concurrent.Semaphore semaphore;
+		public CountingSemaphore(int permits) {
+			semaphore = new java.util.concurrent.Semaphore(permits);
+		}
 		@Override
 		public synchronized void flush() throws SemaphoreException {
 			// TODO How do you flush a semaphore? Put it in the toilet?
@@ -141,34 +145,21 @@ public class Semaphore extends InternalSemaphore {
 			semaphore.release();
 		}
 		@Override
-		public void takeMillis(int timeout) throws SemaphoreException {
-			if (timeout == WAIT_FOREVER) {
-				semaphore.acquireUninterruptibly();
-			} else {
-				try {
-					if (!semaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS)){ // Acquire failed
-						// TODO is this the correct error code?
-						throw new SemaphoreException(SemaphoreException.S_objLib_OBJ_TIMEOUT);
-					}
-				} catch (InterruptedException ex) {
-					// TODO what should happen on interrupt??
-					throw new SemaphoreException(SemaphoreException.S_objLib_OBJ_ID_ERROR);
-				}
-			}
-		}
-		@Override
 		public synchronized boolean tryTake() throws SemaphoreException {
 			return semaphore.tryAcquire();
 		}
+
 		@Override
-		public synchronized void close() throws SemaphoreException {
-			// TODO how on earth do you close a semaphore?
-			throw new UnsupportedOperationException("Not supported yet.");
+		protected void doWaitForever() throws SemaphoreException, InterruptedException {
+			semaphore.acquireUninterruptibly();
 		}
+
 		@Override
-		public synchronized void free() throws SemaphoreException {
-			// TODO And how are you supposed to free one?
-			throw new UnsupportedOperationException("Not supported yet.");
+		protected void doWaitMillis(int timeout) throws SemaphoreException, InterruptedException {
+			if (!semaphore.tryAcquire(timeout, TimeUnit.MILLISECONDS)){ // Acquire failed
+				// TODO is this the correct error code?
+				throw new SemaphoreException(SemaphoreException.S_objLib_OBJ_TIMEOUT);
+			}
 		}
 	}
 	/**
