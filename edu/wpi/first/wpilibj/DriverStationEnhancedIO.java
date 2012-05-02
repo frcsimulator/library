@@ -94,7 +94,7 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
             ((FrcBotSimProperties)m_simProperties.get("output").get()).get("pwm_compare").set(pwm_compare);
             ((FrcBotSimProperties)m_simProperties.get("output").get()).get("pwm_period").set(pwm_period);
             ((FrcBotSimProperties)m_simProperties.get("output").get()).get("dac").set(dac);
-           ((FrcBotSimProperties)m_simProperties.get("output").get()).get("leds").set(leds);
+            ((FrcBotSimProperties)m_simProperties.get("output").get()).get("leds").set(leds);
             ((FrcBotSimProperties)m_simProperties.get("output").get()).get("enables").set(getEnables());
             ((FrcBotSimProperties)m_simProperties.get("output").get()).get("fixed_digital_out").set(fixed_digital_out);
         }
@@ -385,9 +385,6 @@ public class DriverStationEnhancedIO implements FrcBotSimComponent, IInputOutput
             ((FrcBotSimProperties)m_simProperties.get("control").get()).put("id", new FrcBotSimProperty<Byte>((byte)17));
         }
         SimulatedBot.addSimComponent(this);
-        
-        
-        
     }
     status_block_t tempOutputData = new status_block_t();
     control_block_t tempInputData = new control_block_t();

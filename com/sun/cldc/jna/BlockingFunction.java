@@ -11,14 +11,16 @@ import net.sourceforge.frcsimulator.mistware.Simulator;
  *
  * @author wolf
  */
-public abstract class BlockingFunction extends Function{
-    TaskExecutor m_TaskExecutor;
-        public BlockingFunction(){
-            Simulator.fixme(BlockingFunction.class, Thread.currentThread(), "BlockingFunction should not be used");
-            m_TaskExecutor = new TaskExecutor("Default TaskExecutor Name");
-        }
+public class BlockingFunction extends Function {
+
+	TaskExecutor m_TaskExecutor;
+
+	public BlockingFunction() {
+		Simulator.fixme(BlockingFunction.class, Thread.currentThread(), "BlockingFunction should not be used");
+		m_TaskExecutor = new TaskExecutor("Default TaskExecutor Name");
+	}
+
 	public void setTaskExecutor(TaskExecutor te) {
-            Simulator.fixme(BlockingFunction.class, Thread.currentThread(), "BlockingFunction should not be used");
-        }
-        public abstract void run();
+		Simulator.fixme(BlockingFunction.class, Thread.currentThread(), "BlockingFunction should not be used");
+	}
 }

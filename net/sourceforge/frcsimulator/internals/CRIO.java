@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.communication.Semaphore;
 
 /**
  * A class used by the simulator that represents a hardware CRIO.
- * @todo Is the control data part of the cRIO?
- * @todoAnwswer In reality yes, it probably should be changed to FrcBotSimProperties though
  * @author benjamin
  */
 public class CRIO implements FrcBotSimComponent{

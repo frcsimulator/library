@@ -12,7 +12,7 @@ import net.sourceforge.frcsimulator.mistware.Simulator;
  * they need to be replaced.
  * @author wolf
  */
-public class Function extends Thread{
+public class Function {
  	public int call0() {
             Simulator.fixme(Function.class, Thread.currentThread(), "Should not be used");
 		return 0;//@TODO should not be used

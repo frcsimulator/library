@@ -27,18 +27,7 @@ public final class FRCControl implements FrcBotSimComponent{
     private static final TaskExecutor taskExecutor = new TaskExecutor("FRCControl Task executor");
 
     //	int getCommonControlData(FRCCommonControlData *data, int wait_ms);
-    private static final BlockingFunction getCommonControlDataFn = new BlockingFunction(){
-        public int call2(int arg0, int arg1){
-            Simulator.fixme(FRCControl.class,Thread.currentThread(), "getCommonControlDataFn stubbed");
-            taskExecutor.execute(this);
-            return 0;
-        }
-        @Override
-        public void run() {
-            Simulator.fixme(FRCControl.class, Thread.currentThread(), "not sure what to do here");
-        }
-        
-    };
+    private static final BlockingFunction getCommonControlDataFn = new BlockingFunction();
     
     // 	int getDynamicControlData(UINT8 type, char *dynamicData, INT32 maxLength, int wait_ms);
     private static final BlockingFunction getDynamicControlDataFn = NativeLibrary.getDefaultInstance().getBlockingFunction("getDynamicControlData");
@@ -73,7 +62,7 @@ public final class FRCControl implements FrcBotSimComponent{
     //private static final Function observeUserProgramTeleopFn = NativeLibrary.getDefaultInstance().getFunction("FRC_NetworkCommunication_observeUserProgramTeleop");
 
     
-    static {
+    /*static {
         getCommonControlDataFn.setTaskExecutor(taskExecutor);
         getDynamicControlDataFn.setTaskExecutor(taskExecutor);
         setStatusDataFn.setTaskExecutor(taskExecutor);
@@ -81,7 +70,7 @@ public final class FRCControl implements FrcBotSimComponent{
         setUserDsLcdDataFn.setTaskExecutor(taskExecutor);
         setNewDataSemFn.setTaskExecutor(taskExecutor);
         overrideIOConfigFn.setTaskExecutor(taskExecutor);
-    }
+    }*/
 
     /**
      * The size of the IO configuration data
