@@ -10,6 +10,7 @@ package edu.wpi.first.wpilibj;
 import edu.wpi.first.wpilibj.fpga.tAI;
 import edu.wpi.first.wpilibj.communication.AICalibration;
 import edu.wpi.first.wpilibj.communication.ModulePresence;
+import net.sourceforge.frcsimulator.internals.FrcBotSimComponent;
 import net.sourceforge.frcsimulator.internals.FrcBotSimProperty;
 
 /**
@@ -18,10 +19,10 @@ import net.sourceforge.frcsimulator.internals.FrcBotSimProperty;
  * There is a 64-bit hardware accumulator associated with channel 1 on each module.
  * The accumulator is attached to the output of the oversample and average engine so that the center
  * value can be specified in higher resolution resulting in less error.
+ * @todo get rid of all calls to tAI and replace with Simulator methods
  */
-public class AnalogModule extends Module {
-
-    /**
+public class AnalogModule extends Module implements FrcBotSimComponent {
+	    /**
      * The time base used by the module
      */
     public static final int kTimebase = 40000000;
@@ -70,6 +71,8 @@ public class AnalogModule extends Module {
 
         n_simProperties.put("sampleRateSet", new FrcBotSimProperty<Boolean>(false));
         n_simProperties.put("numChannelsToActivate", new FrcBotSimProperty<Integer>(0));
+		n_simProperties.put("averageValue", new FrcBotSimProperty<Integer>(0));
+		n_simProperties.put("value", new FrcBotSimProperty<Short>((short)0));
         //n_simProperties.put("accumulatorOffset", new FrcBotSimProperty<Long>((long)0)); @TODO see if this is needed
         
         m_module = new tAI(moduleNumber - 1);
@@ -236,7 +239,7 @@ public class AnalogModule extends Module {
      * @return Raw value.
      */
     public int getValue(final int channel) {
-        int value;
+        /*int value;
         SensorBase.checkAnalogChannel(channel);
 
         synchronized (syncRoot) {
@@ -248,7 +251,8 @@ public class AnalogModule extends Module {
             value = tAI.readOutput();
         }
 
-        return (short) value;
+        return (short) value;*/
+		return (Short)(n_simProperties.get("value").get());
     }
 
     /**
@@ -258,7 +262,7 @@ public class AnalogModule extends Module {
      * @return The averaged and oversampled raw value.
      */
     public int getAverageValue(final int channel) {
-        int value;
+        /*int value;
         SensorBase.checkAnalogChannel(channel);
 
         synchronized (syncRoot) {
@@ -270,7 +274,8 @@ public class AnalogModule extends Module {
             value = tAI.readOutput();
         }
 
-        return value;
+        return value;*/
+		return (Integer)(n_simProperties.get("averageValue").get());
     }
 
     /**

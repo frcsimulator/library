@@ -24,13 +24,13 @@ import net.sourceforge.frcsimulator.mistware.Simulator;
  */
 public final class FRCControl implements FrcBotSimComponent{
     private FrcBotSimProperties m_simProperties;
-    private static final TaskExecutor taskExecutor = new TaskExecutor("FRCControl Task executor");
+    //private static final TaskExecutor taskExecutor = new TaskExecutor("FRCControl Task executor");
 
     //	int getCommonControlData(FRCCommonControlData *data, int wait_ms);
-    private static final BlockingFunction getCommonControlDataFn = new BlockingFunction();
+   // private static final BlockingFunction getCommonControlDataFn = new BlockingFunction();
     
     // 	int getDynamicControlData(UINT8 type, char *dynamicData, INT32 maxLength, int wait_ms);
-    private static final BlockingFunction getDynamicControlDataFn = NativeLibrary.getDefaultInstance().getBlockingFunction("getDynamicControlData");
+    //private static final BlockingFunction getDynamicControlDataFn = NativeLibrary.getDefaultInstance().getBlockingFunction("getDynamicControlData");
     
     // 	int setStatusDataFloatAsInt(int battery, UINT8 dsDigitalOut, UINT8 updateNumber,
 	//                              const char *userDataHigh, int userDataHighLength,
@@ -38,16 +38,16 @@ public final class FRCControl implements FrcBotSimComponent{
     private static final BlockingFunction setStatusDataFn = NativeLibrary.getDefaultInstance().getBlockingFunction("setStatusDataFloatAsInt");
 
     // int setErrorData(const char *errors, int errorsLength, int wait_ms);
-    private static final BlockingFunction setErrorDataFn = NativeLibrary.getDefaultInstance().getBlockingFunction("setErrorData");
+    //private static final BlockingFunction setErrorDataFn = NativeLibrary.getDefaultInstance().getBlockingFunction("setErrorData");
 
     // int setUserDsLcdData(const char *userDsLcdData, int userDsLcdDataLength, int wait_ms);
     private static final BlockingFunction setUserDsLcdDataFn = NativeLibrary.getDefaultInstance().getBlockingFunction("setUserDsLcdData");
 
     // int overrideIOConfig(const char *ioConfig, int wait_ms);
-    private static final BlockingFunction overrideIOConfigFn = NativeLibrary.getDefaultInstance().getBlockingFunction("overrideIOConfig");
+    //private static final BlockingFunction overrideIOConfigFn = NativeLibrary.getDefaultInstance().getBlockingFunction("overrideIOConfig");
 
     // void setNewDataSem(SEM_ID);
-    private static final BlockingFunction setNewDataSemFn = NativeLibrary.getDefaultInstance().getBlockingFunction("setNewDataSem");
+    //private static final BlockingFunction setNewDataSemFn = NativeLibrary.getDefaultInstance().getBlockingFunction("setNewDataSem");
 
     // void FRC_NetworkCommunication_observeUserProgramStarting(void);
     //private static final Function observeUserProgramStartingFn = NativeLibrary.getDefaultInstance().getFunction("FRC_NetworkCommunication_observeUserProgramStarting");
@@ -239,10 +239,11 @@ public final class FRCControl implements FrcBotSimComponent{
      * @param timeOut the maximum time to wait
      */
     public static void setErrorData(byte[] bytes, int length, int timeOut) {
-        Pointer textPtr = new Pointer(bytes.length);
+        /*Pointer textPtr = new Pointer(bytes.length);
         textPtr.setBytes(0, bytes, 0, bytes.length);
         setErrorDataFn.call3(textPtr, length, timeOut);
-        textPtr.free();
+        textPtr.free();*/
+		Simulator.fixme(FRCControl.class, Thread.currentThread(), "setErrorData stubbed");
     }
 
     /**
@@ -252,10 +253,11 @@ public final class FRCControl implements FrcBotSimComponent{
      * @param timeOut the maximum time to wait
      */
     public static void setErrorData(Pointer textPtr, int length, int timeOut) {
-        if (length > textPtr.getSize()) {
+        /*if (length > textPtr.getSize()) {
             throw new IllegalArgumentException();
         }
-        setErrorDataFn.call3(textPtr, length, timeOut);
+        setErrorDataFn.call3(textPtr, length, timeOut);*/
+		Simulator.fixme(FRCControl.class, Thread.currentThread(), "setErrorData stubbed");
     }
 
     /**

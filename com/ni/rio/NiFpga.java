@@ -21,6 +21,8 @@ import net.sourceforge.frcsimulator.mistware.Simulator;
 /**
  * The Nifpga class provides access to the FPGA on the cRIO. This is a wrapper around the accessors
  * in Nifpga.h
+ * @todo Get rid of this whole thing
+ * @todo Where did all the commented-out System.out.print statements come from? (not very important)
  */
 public class NiFpga implements NiRioConstants
 {
@@ -139,12 +141,7 @@ public class NiFpga implements NiRioConstants
         statusA.setStatus(statusB);
     }
 
-	private static final class writeU32Fn {
-            public static int call3(int arg0, int arg1, int arg2){
-                Simulator.fixme(NiFpga.class, Thread.currentThread(), "writeU32Fn stubbed");
-                return 0;//@TODO actually get working
-            }
-        }
+	// private writeU32Fn removed
 
     /**
      * Writes an unsigned 32-bit integer value to a given control or indicator.
@@ -156,21 +153,17 @@ public class NiFpga implements NiRioConstants
      */
     public static void writeU32(int hClient, int offset, int value, NiRioStatus status)
    {
+	   // TODO: Where did the next four lines come from?
 //      System.out.print("write offset = 0x");
 //      System.out.println(Long.toString(offset, 16));
 //      System.out.print("value = 0x");
 //      System.out.println(Long.toString(((long)value) & 0xFFFFFFFFL, 16));
-      mergeStatus(status, writeU32Fn.call3(hClient, offset, value));
+	   // This next line was taken out & stubbed
+      //mergeStatus(status, writeU32Fn.call3(hClient, offset, value));
+	  Simulator.fixme(NiFpga.class, Thread.currentThread(), "writeU32 stubbed");
 	}
 
     private static IntByReference readValue = new IntByReference(0);
-    
-    private static final class readU32Fn {
-        public static int call3(int arg0, int arg1, int arg2){
-//            Simulator.fixme(NiFpga.class, Thread.currentThread(), "readU32Fn stubbed"); @TODO commented out because of MASSIVE amount of output
-            return 0;//@TODO actually get working
-        }
-    }
 
     /**
      * Reads an unsigned 32-bit integer value from a given offset
@@ -181,12 +174,16 @@ public class NiFpga implements NiRioConstants
      * @return outputs the value that was read
      */
     public static synchronized int readU32(int hClient, int offset, NiRioStatus status) {
-//      System.out.print("read offset = 0x");
+		// TODO where did the next two lines come from?
+		//      System.out.print("read offset = 0x");
 //      System.out.println(Long.toString(offset, 16));
-        mergeStatus(status,
-                readU32Fn.call3(hClient, offset, 0/*readValue.getPointer()*/));
+        // Next two lines taken out & stubbed
+		//mergeStatus(status,
+        //        readU32Fn.call3(hClient, offset, 0/*readValue.getPointer()*/));
+		// TODO where did the next two lines come from?
 //      System.out.print("value = 0x");
 //      System.out.println(Long.toString(((long)value) & 0xFFFFFFFFL, 16));
+		Simulator.fixme(NiFpga.class, Thread.currentThread(), "readU32Fn stubbed"); //@TODO commented out because of MASSIVE amount of output
         return readValue.getValue();
     }
 

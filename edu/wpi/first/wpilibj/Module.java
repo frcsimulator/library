@@ -8,8 +8,6 @@
 package edu.wpi.first.wpilibj;
 
 import edu.wpi.first.wpilibj.communication.ModulePresence;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sourceforge.frcsimulator.internals.CRIO;
 import net.sourceforge.frcsimulator.internals.CRIOModule;
 import net.sourceforge.frcsimulator.internals.ModuleException;
