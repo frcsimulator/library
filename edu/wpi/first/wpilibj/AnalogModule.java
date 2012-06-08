@@ -52,7 +52,7 @@ public class AnalogModule extends Module implements FrcBotSimComponent {
      */
     public static synchronized AnalogModule getInstance(final int moduleNumber) {
         checkAnalogModule(moduleNumber);
-        return new AnalogModule(moduleNumber);
+        return new AnalogModule(moduleNumber); //@TODO make it actually get an instance
     }
 
     /**
@@ -71,8 +71,8 @@ public class AnalogModule extends Module implements FrcBotSimComponent {
 
         n_simProperties.put("sampleRateSet", new FrcBotSimProperty<Boolean>(false));
         n_simProperties.put("numChannelsToActivate", new FrcBotSimProperty<Integer>(0));
-		n_simProperties.put("averageValue", new FrcBotSimProperty<Integer>(0));
-		n_simProperties.put("value", new FrcBotSimProperty<Short>((short)0));
+        n_simProperties.put("averageValue", new FrcBotSimProperty<Integer>(0));
+        n_simProperties.put("value", new FrcBotSimProperty<Short>((short)0));
         //n_simProperties.put("accumulatorOffset", new FrcBotSimProperty<Long>((long)0)); @TODO see if this is needed
         
         m_module = new tAI(moduleNumber - 1);
@@ -275,7 +275,7 @@ public class AnalogModule extends Module implements FrcBotSimComponent {
         }
 
         return value;*/
-		return (Integer)(n_simProperties.get("averageValue").get());
+		return (Integer)(n_simProperties.get("averageValue").get()) == null ? 4 : (Integer)(n_simProperties.get("averageValue").get());
     }
 
     /**

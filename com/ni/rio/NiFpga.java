@@ -183,7 +183,7 @@ public class NiFpga implements NiRioConstants
 		// TODO where did the next two lines come from?
 //      System.out.print("value = 0x");
 //      System.out.println(Long.toString(((long)value) & 0xFFFFFFFFL, 16));
-		Simulator.fixme(NiFpga.class, Thread.currentThread(), "readU32Fn stubbed"); //@TODO commented out because of MASSIVE amount of output
+//		Simulator.fixme(NiFpga.class, Thread.currentThread(), "readU32Fn stubbed"); //@TODO commented out because of MASSIVE amount of output
         return readValue.getValue();
     }
 
