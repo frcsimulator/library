@@ -58,11 +58,11 @@ public class ModulePresence {
         }
         if(moduleType == ModuleType.kDigital){
             try{
-                if(moduleNumber == 0){
+                if(moduleNumber == 1){
                     CRIO.getInstance().getModule(4);
                     return true;
                 }
-                if(moduleNumber == 1){
+                if(moduleNumber == 2){
                     CRIO.getInstance().getModule(6);
                 }
             } catch(ModuleException me){return false;}

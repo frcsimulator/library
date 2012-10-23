@@ -26,6 +26,7 @@ import net.sourceforge.frcsimulator.internals.SimulatedBot;
 public final class FRCCommonControlData extends Structure implements FrcBotSimComponent {
 	private FrcBotSimProperties properties;
 	private ChangeListener onChange;
+	private FRCCommonControlData instance;
 	public FrcBotSimProperties getSimProperties() {
 		return properties;
 	}

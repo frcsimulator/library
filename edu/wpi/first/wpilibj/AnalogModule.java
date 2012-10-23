@@ -275,7 +275,7 @@ public class AnalogModule extends Module implements FrcBotSimComponent {
         }
 
         return value;*/
-		return (Integer)(n_simProperties.get("averageValue").get()) == null ? 4 : (Integer)(n_simProperties.get("averageValue").get());
+		return n_simProperties.get("averageValue") == null ? 4 : (Integer)(n_simProperties.get("averageValue").get());
     }
 
     /**
