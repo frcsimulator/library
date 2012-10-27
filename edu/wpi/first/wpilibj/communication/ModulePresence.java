@@ -38,41 +38,15 @@ public class ModulePresence {
      * Determines whether the module of the given type and number is present.
      * @TODO verify that this actually works how it does on the real robot, the javadoc is somewhat ambiguous
      * @param moduleType The type of the module to be check.
-     * @param moduleNumber The ID for this type of module to check (usually 0 or 1).
+     * @param moduleNumber The ID for this type of module to check (0 or 1).
      * @return Whether the given module is present.
      */
     public static boolean getModulePresence(ModuleType moduleType, int moduleNumber) {
-        if(moduleType == ModuleType.kUnknown){
-            try{
-                CRIO.getInstance().getModule(moduleNumber+1);
-                return true;
-            } catch(ModuleException me){return false;}
-        }
-        if(moduleType == ModuleType.kAnalog){
-            try{
-                if(moduleNumber < 2){
-                    CRIO.getInstance().getModule(moduleNumber+1);
-                    return true;
-                }
-            } catch(ModuleException me){return false;}
-        }
-        if(moduleType == ModuleType.kDigital){
-            try{
-                if(moduleNumber == 0){
-                    CRIO.getInstance().getModule(4);
-                    return true;
-                }
-                if(moduleNumber == 1){
-                    CRIO.getInstance().getModule(6);
-		    return true;
-                }
-            } catch(ModuleException me){return false;}
-        }
-        if(moduleType == ModuleType.kSolenoid){
-            try{
-                CRIO.getInstance().getModule(8);
-            } catch(ModuleException me){return false;}
-        }
-        return false;
+        try{
+	    CRIO.getInstance().getModule(moduleType.getValue(),moduleNumber);
+	    return true;
+	} catch(ModuleException me){
+	    return false;
+	}
     }
 }

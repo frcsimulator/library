@@ -38,13 +38,12 @@ public class Module extends SensorBase {
      */
     protected Module(ModulePresence.ModuleType moduleType, final int moduleNumber) {
         if(!ModulePresence.getModulePresence(moduleType,moduleNumber-1)){
-            throw new RuntimeException("You are not simulating "+moduleType+" module "+moduleNumber+" at CRIO Module slot "+toIndex(moduleType,moduleNumber));
+            throw new RuntimeException("You are not simulating "+moduleType+" module "+moduleNumber+".");
         }
         else{
         try {
-            m_hwModule = CRIO.getInstance().getModule(toIndex(moduleType, moduleNumber)-1);
-            Simulator.fixme(Module.class,Thread.currentThread(),"I really am not sure if this is how the hardware modules actually behave, can someone help?");
-        } catch (ModuleException ex) {Simulator.err(Module.class, Thread.currentThread(), "Strange, a ModuleException was thrown after the ModulePresence check, WHAT DID YOU DO‽‽‽ INFO:"+toIndex(moduleType,moduleNumber)+":"+moduleNumber);}
+            m_hwModule = CRIO.getInstance().getModule(moduleType.getValue(),moduleNumber-1);
+        } catch (ModuleException ex) {throw new RuntimeException("Strange, a ModuleException was thrown after the ModulePresence check, WHAT DID YOU DO‽‽‽ INFO:"+moduleType.getValue()+":"+moduleNumber);}
         m_moduleNumber = moduleNumber;
         }
     }
@@ -76,18 +75,5 @@ public class Module extends SensorBase {
      */
     public static Module getModule(ModulePresence.ModuleType moduleType, int moduleNumber) {
         return new Module(moduleType,moduleNumber);
-    }
-
-    /**
-     * Create an index into m_modules based on type and number
-     *
-     * @param moduleType The type of the module represented.
-     * @param moduleNumber The module index within the module type.
-     * @return The index into m_modules.
-     */
-    private static int toIndex(ModulePresence.ModuleType moduleType, int moduleNumber) {
-        if(moduleNumber == 0 || moduleNumber > ModulePresence.kMaxModuleNumber)
-            return 0;
-        return moduleType.getValue() * ModulePresence.kMaxModuleNumber + (moduleNumber - 1);
     }
 }

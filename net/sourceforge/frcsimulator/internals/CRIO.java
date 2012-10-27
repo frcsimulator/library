@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.communication.Semaphore;
 public class CRIO implements FrcBotSimComponent{
     private  FrcBotSimProperties m_simProperties;
     private static CRIO m_kCRIO = new CRIO(2010);
-    private CRIOModule[] m_modules = new CRIOModule[8];
+    private CRIOModule[][] m_modules = new CRIOModule[4][2];
     public Semaphore newDataSemaphore;
     /**
      * Adds a simulated module at the given location to the CRIO.
@@ -21,17 +21,17 @@ public class CRIO implements FrcBotSimComponent{
      */
     public void addModule(CRIOModule module, int id) throws ModuleException{ //@TODO throw InvalidModuleException if not the right type for given id
         if(module == null){throw new InvalidModuleException();}
-        if(id < 1 || id > 8){throw new ModuleSlotOutOfBoundsException();}
-        m_modules[id-1] = module;
+        if(id < 1 || id > 2){throw new ModuleSlotOutOfBoundsException();}
+        m_modules[module.getType()][id-1] = module;
     }
     /**
      * Removes a module from the given location on the CRIO.
      * @param id Where to remove the module from.
      * @throws ModuleSlotOutOfBoundsException if the id would not be on a hardware CRIO.
      */
-    public void removeModule(int id) throws ModuleException{
-        if(id < 1 || id > 8){throw new ModuleSlotOutOfBoundsException();}
-        m_modules[id-1] = null;
+    public void removeModule(int moduleType,int id) throws ModuleException{
+        if(id < 1 || id > 2){throw new ModuleSlotOutOfBoundsException();}
+        m_modules[moduleType][id-1] = null;
     }
     /**
      * Gets a module from the given location on the CRIO.
@@ -40,10 +40,10 @@ public class CRIO implements FrcBotSimComponent{
      * @throws ModuleSlotOutOfBoundsException if the id would not be on a hardware CRIO.
      * @throws ModuleNotFoundException if the module does not exist at that location.
      */
-    public CRIOModule getModule(int id) throws ModuleException{
-        if(id < 1 || id > 8){throw new ModuleSlotOutOfBoundsException();}
-        if(m_modules[id-1] == null){throw new ModuleNotFoundException();}
-        return m_modules[id-1];
+    public CRIOModule getModule(int moduleType,int id) throws ModuleException{
+        if(id < 1 || id > 2){throw new ModuleSlotOutOfBoundsException();}
+        if(m_modules[moduleType][id-1] == null){throw new ModuleNotFoundException();}
+        return m_modules[moduleType][id-1];
     }
     /**
      * Constructs a CRIO object with the given year(used for different configurations, like the difference between 2012 and pre-2012).
@@ -54,7 +54,7 @@ public class CRIO implements FrcBotSimComponent{
         m_simProperties = new FrcBotSimProperties();
         m_simProperties.put("year", new FrcBotSimProperty<Integer>(year));
         m_simProperties.put("debugging", new FrcBotSimProperty<Boolean>(false));
-        m_simProperties.put("modules", new FrcBotSimProperty<CRIOModule[]>(m_modules));
+        m_simProperties.put("modules", new FrcBotSimProperty<CRIOModule[][]>(m_modules));
         SimulatedBot.addSimComponent(this);
     }
     /**
