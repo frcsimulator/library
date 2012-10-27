@@ -66,7 +66,7 @@ public class ModulePresence {
                     CRIO.getInstance().getModule(6);
 		    return true;
                 }
-            } catch(ModuleException me){System.out.println("WHY!?!?!" + moduleNumber); return false;}
+            } catch(ModuleException me){return false;}
         }
         if(moduleType == ModuleType.kSolenoid){
             try{
