@@ -22,8 +22,8 @@ import net.sourceforge.frcsimulator.mistware.Simulator;
 /**
  * Contains the code necessary to communicate between the robot and the driver station.
  */
-public final class FRCControl implements FrcBotSimComponent{
-    private FrcBotSimProperties m_simProperties;
+public final class FRCControl{
+    public static String dataLCDText = "";
     //private static final TaskExecutor taskExecutor = new TaskExecutor("FRCControl Task executor");
 
     //	int getCommonControlData(FRCCommonControlData *data, int wait_ms);
@@ -90,11 +90,6 @@ public final class FRCControl implements FrcBotSimComponent{
     public static final int USER_DS_LCD_DATA_SIZE = 128;
 
     private FRCControl() {
-    }
-
-    @Override
-    public FrcBotSimProperties getSimProperties() {
-        return m_simProperties;
     }
 
     /**
@@ -267,10 +262,12 @@ public final class FRCControl implements FrcBotSimComponent{
      * @param timeOut the maximum time to wait
      */
     public static void setUserDsLcdData(byte[] bytes, int length, int timeOut) {
-        Pointer textPtr = new Pointer(bytes.length);
+        /*Pointer textPtr = new Pointer(bytes.length);
         textPtr.setBytes(0, bytes, 0, bytes.length);
         setUserDsLcdDataFn.call3(textPtr, length, timeOut);
-        textPtr.free();
+        textPtr.free();*/
+	dataLCDText = new String(bytes);
+	
     }
 
     /**
