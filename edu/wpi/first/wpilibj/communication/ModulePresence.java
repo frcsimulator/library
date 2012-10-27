@@ -58,14 +58,15 @@ public class ModulePresence {
         }
         if(moduleType == ModuleType.kDigital){
             try{
-                if(moduleNumber == 1){
+                if(moduleNumber == 0){
                     CRIO.getInstance().getModule(4);
                     return true;
                 }
-                if(moduleNumber == 2){
+                if(moduleNumber == 1){
                     CRIO.getInstance().getModule(6);
+		    return true;
                 }
-            } catch(ModuleException me){return false;}
+            } catch(ModuleException me){System.out.println("WHY!?!?!" + moduleNumber); return false;}
         }
         if(moduleType == ModuleType.kSolenoid){
             try{
