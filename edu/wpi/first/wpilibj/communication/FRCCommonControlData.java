@@ -8,17 +8,8 @@
 package edu.wpi.first.wpilibj.communication;
 
 import com.sun.cldc.jna.Structure;
-import edu.wpi.first.wpilibj.Accelerometer;
-import edu.wpi.first.wpilibj.Gyro;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import net.sourceforge.frcsimulator.internals.CRIO;
-import net.sourceforge.frcsimulator.internals.FrcBotSimComponent;
-import net.sourceforge.frcsimulator.internals.FrcBotSimProperties;
-import net.sourceforge.frcsimulator.internals.FrcBotSimProperty;
-import net.sourceforge.frcsimulator.internals.SimulatedBot;
+import javax.swing.event.*;
+import net.sourceforge.frcsimulator.internals.*;
 
 /**
  * Structure for data exchanged between the robot and the driver station.
