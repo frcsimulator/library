@@ -8,6 +8,5 @@ package net.sourceforge.frcsimulator.internals;
  *
  * @author benjamin
  */
-public class ModuleNotFoundException extends ModuleException{
-    
+public class ModuleNotFoundException extends ModuleException {
 }

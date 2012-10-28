@@ -6,9 +6,11 @@ package com.sun.squawk.platform.posix;
 
 /**
  * A class used by Semaphore, but never documented anywhere.
+ * <p/>
  * @author wolf
  */
 public class LibCUtil {
+
 	public static int errno() {
 		throw new UnsupportedOperationException("Not implemented yet.");
 	}

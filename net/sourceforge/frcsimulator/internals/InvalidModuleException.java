@@ -9,5 +9,4 @@ package net.sourceforge.frcsimulator.internals;
  * @author benjamin
  */
 public class InvalidModuleException extends ModuleException {
-    
 }

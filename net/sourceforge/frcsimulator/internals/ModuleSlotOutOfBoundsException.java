@@ -8,6 +8,5 @@ package net.sourceforge.frcsimulator.internals;
  *
  * @author benjamin
  */
-public class ModuleSlotOutOfBoundsException extends ModuleException{
-    
+public class ModuleSlotOutOfBoundsException extends ModuleException {
 }

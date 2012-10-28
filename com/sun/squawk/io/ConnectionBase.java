@@ -4,9 +4,7 @@
  */
 package com.sun.squawk.io;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import javax.microedition.io.Connection;
 
 /**
@@ -27,5 +25,4 @@ public class ConnectionBase implements Connection {
 	public OutputStream openOutputStream() throws IOException {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
-
 }

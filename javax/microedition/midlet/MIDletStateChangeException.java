@@ -9,5 +9,4 @@ package javax.microedition.midlet;
  * @author wolf
  */
 public class MIDletStateChangeException extends Exception {
-
 }

@@ -11,6 +11,8 @@ import java.io.IOException;
  * @author wolf
  */
 public interface SocketConnection extends StreamConnection {
+
 	public static final byte LINGER = 1;
+
 	public void setSocketOption(byte option, int value) throws IOException;
 }

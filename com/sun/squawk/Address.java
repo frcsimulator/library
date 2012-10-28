@@ -10,14 +10,17 @@ import net.sourceforge.frcsimulator.mistware.Simulator;
 /**
  * The Address class is used to abstract machine addresses. This should probably
  * never be used in the simulator, and throws exceptions stating so.
+ * <p/>
  * @author wolf
  */
 public class Address {
-    public Address(){
-        Simulator.fixme(Address.class, Thread.currentThread(), "Address should not be used");
-    }
+
+	public Address() {
+		Simulator.fixme(Address.class, Thread.currentThread(), "Address should not be used");
+	}
+
 	public UWord toUWord() {
-        Simulator.fixme(Address.class, Thread.currentThread(), "Address should not be used");
-                return new UWord();
+		Simulator.fixme(Address.class, Thread.currentThread(), "Address should not be used");
+		return new UWord();
 	}
 }

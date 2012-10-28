@@ -11,6 +11,5 @@ import java.util.HashMap;
  *
  * @author wolf
  */
-public class FrcBotSimProperties extends HashMap<String,FrcBotSimProperty> {
-
+public class FrcBotSimProperties extends HashMap<String, FrcBotSimProperty> {
 }

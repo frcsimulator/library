@@ -9,5 +9,4 @@ package com.sun.squawk.realtime;
  * @author wolf
  */
 public class SizeOutOfBoundsException extends RuntimeException {
-
 }

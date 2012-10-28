@@ -9,5 +9,4 @@ package net.sourceforge.frcsimulator.internals;
  * @author benjamin
  */
 public abstract class ModuleException extends Exception {
-    
 }

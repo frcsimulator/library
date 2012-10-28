@@ -9,6 +9,7 @@ package net.sourceforge.frcsimulator.mistware;
  * @author wolf
  */
 public class SimulatorError extends Exception {
+
 	public SimulatorError(String message, Throwable cause) {
 		super(message, cause);
 	}

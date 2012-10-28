@@ -11,5 +11,6 @@ import java.io.IOException;
  * @author wolf
  */
 public interface Connection {
+
 	void close() throws IOException;
 }

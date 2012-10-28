@@ -13,6 +13,8 @@ import java.io.InputStream;
  * @author wolf
  */
 public interface InputConnection extends Connection {
+
 	InputStream openInputStream() throws IOException;
+
 	DataInputStream openDataInputStream() throws IOException;
 }

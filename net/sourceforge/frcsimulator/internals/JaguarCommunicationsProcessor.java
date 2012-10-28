@@ -10,12 +10,14 @@ import java.util.LinkedList;
  * @todo What is this?
  * @author benjamin
  */
-public class JaguarCommunicationsProcessor implements FrcBotSimComponent{
-    private static LinkedList<byte[]>[] m_kdataInputStreams  = new LinkedList[63];
-    private static LinkedList<byte[]>[] m_kdataOutputStreams = new LinkedList[63];
-    private static int[] m_kmessageIDs = new int[63];
-    @Override
-    public FrcBotSimProperties getSimProperties() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+public class JaguarCommunicationsProcessor implements FrcBotSimComponent {
+
+	private static LinkedList<byte[]>[] m_kdataInputStreams = new LinkedList[63];
+	private static LinkedList<byte[]>[] m_kdataOutputStreams = new LinkedList[63];
+	private static int[] m_kmessageIDs = new int[63];
+
+	@Override
+	public FrcBotSimProperties getSimProperties() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 }

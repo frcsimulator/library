@@ -9,11 +9,14 @@ package net.sourceforge.frcsimulator.internals;
  * @author benjamin
  */
 public class RobotStatusDSReadable {
-    private static String status;
-    public static void setStatus(String status){
-        RobotStatusDSReadable.status=status;
-    }
-    public static String getStatus(){
-        return status;
-    }
+
+	private static String status;
+
+	public static void setStatus(String status) {
+		RobotStatusDSReadable.status = status;
+	}
+
+	public static String getStatus() {
+		return status;
+	}
 }

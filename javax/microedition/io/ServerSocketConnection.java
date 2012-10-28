@@ -9,5 +9,4 @@ package javax.microedition.io;
  * @author wolf
  */
 public interface ServerSocketConnection extends StreamConnectionNotifier {
-
 }

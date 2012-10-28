@@ -9,6 +9,7 @@ package net.sourceforge.frcsimulator.internals;
  * @author wolf
  */
 public class UnimplementedOperationException extends UnsupportedOperationException {
+
 	public UnimplementedOperationException(String message) {
 		super(message);
 	}

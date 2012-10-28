@@ -9,9 +9,11 @@ package com.sun.squawk;
  * @author wolf
  */
 public class GC {
+
 	public static void initHeapStats() {
 		throw new UnsupportedOperationException("Not yet implemented,");
 	}
+
 	public static void printHeapStats(Object o, boolean b) {
 		throw new UnsupportedOperationException("Not yet implemented,");
 	}

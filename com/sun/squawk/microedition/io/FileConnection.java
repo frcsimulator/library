@@ -12,6 +12,8 @@ import javax.microedition.io.StreamConnection;
  * @author wolf
  */
 public interface FileConnection extends StreamConnection {
+
 	void create() throws IOException;
+
 	boolean exists();
 }
